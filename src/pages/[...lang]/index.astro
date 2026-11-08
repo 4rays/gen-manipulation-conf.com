@@ -1,0 +1,52 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import Hero from "@/components/conference/Hero.astro";
+import EventFacts from "@/components/conference/EventFacts.astro";
+import About from "@/components/conference/About.astro";
+import Speakers from "@/components/conference/Speakers.astro";
+import Programme from "@/components/conference/Programme.astro";
+import Talks from "@/components/conference/Talks.astro";
+import Venue from "@/components/conference/Venue.astro";
+import {getConference} from "@/data/conference";
+import {
+  getLocaleFromParams,
+  getLocaleStaticPaths,
+  useTranslations
+} from "@/i18n/utils";
+
+export function getStaticPaths() {
+  return getLocaleStaticPaths();
+}
+
+const locale = getLocaleFromParams(Astro.params);
+const conference = getConference(locale);
+const labels = useTranslations(locale).conference;
+// Programme and abstract links resolve organisers as well as speakers.
+const people = [...conference.speakers, ...conference.organisers];
+---
+
+<PageLayout
+  title={conference.title}
+  description={conference.description}
+  locale={locale}
+  fullWidth
+  immersive
+>
+  <Hero conference={conference} />
+  <EventFacts facts={conference.facts} />
+  <About about={conference.about} />
+  <Speakers speakers={conference.speakers} labels={labels} />
+  <Programme days={conference.programme} speakers={people} labels={labels} />
+  <Talks abstracts={conference.abstracts} speakers={people} labels={labels} />
+  <Venue
+    venue={conference.venue}
+    contacts={conference.contacts}
+    labels={labels}
+  />
+  <Speakers
+    id="organisers"
+    heading={labels.organisers}
+    speakers={conference.organisers}
+    labels={labels}
+  />
+</PageLayout>

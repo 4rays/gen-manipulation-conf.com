@@ -1,0 +1,90 @@
+---
+import {ArrowDown} from "@lucide/astro";
+import type {ProgrammeDay, Speaker} from "@/data/conference";
+import type {Translations} from "@/i18n/constants";
+
+interface Props {
+  days: ProgrammeDay[];
+  speakers: Speaker[];
+  labels: Translations["conference"];
+}
+
+const {days, speakers, labels} = Astro.props;
+const speakerNames = new Map(
+  speakers.map((speaker) => [speaker.id, speaker.name])
+);
+---
+
+<section
+  id="programme"
+  class="conference-section conference-programme surface-night"
+  aria-labelledby="programme-heading"
+>
+  <div class="layout-container">
+    <h2 id="programme-heading">{labels.programme}</h2>
+    <p class="programme-note">{labels.programmeNote}</p>
+    <div class="programme-days">
+      {days.map((day) => (
+        <article class="programme-day" aria-labelledby={`day-${day.id}`}>
+          <h3 id={`day-${day.id}`}>
+            <span>{day.label}</span>
+            <time datetime={day.id}>{day.dateLabel}</time>
+          </h3>
+          <ol class="programme-list" role="list">
+            {day.sessions.map((session) => (
+              <li
+                id={`session-${session.id}`}
+                class="programme-session"
+                data-kind={session.kind}
+              >
+                <div class="programme-session__time">
+                  <time datetime={`${session.day}T${session.start}`}>
+                    {session.start}
+                  </time>
+                  <span aria-hidden="true">–</span>
+                  <span class="sr-only">{labels.to}</span>
+                  <time datetime={`${session.day}T${session.end}`}>
+                    {session.end}
+                  </time>
+                </div>
+                <div class="programme-session__content">
+                  <h4>
+                    {session.abstractId ? (
+                      <a href={`#abstract-${session.abstractId}`}>
+                        {session.title}
+                        <ArrowDown
+                          size={16}
+                          stroke-width={1.5}
+                          aria-hidden="true"
+                        />
+                      </a>
+                    ) : (
+                      (session.title ?? labels.toBeAnnounced)
+                    )}
+                  </h4>
+                  {session.speakerIds.length > 0 && (
+                    <p class="programme-session__speakers">
+                      {session.speakerIds.map((speakerId, index) => (
+                        <Fragment>
+                          {index > 0 && ", "}
+                          <a href={`#speaker-${speakerId}`}>
+                            {speakerNames.get(speakerId)}
+                          </a>
+                        </Fragment>
+                      ))}
+                    </p>
+                  )}
+                  {session.tbd && (
+                    <p class="programme-session__pending">
+                      {labels.detailsToBeAnnounced}
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

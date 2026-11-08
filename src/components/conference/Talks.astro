@@ -1,0 +1,50 @@
+---
+import {ArrowUp} from "@lucide/astro";
+import type {Speaker, TalkAbstract} from "@/data/conference";
+import type {Translations} from "@/i18n/constants";
+
+interface Props {
+  abstracts: TalkAbstract[];
+  speakers: Speaker[];
+  labels: Translations["conference"];
+}
+
+const {abstracts, speakers, labels} = Astro.props;
+const speakerNames = new Map(
+  speakers.map((speaker) => [speaker.id, speaker.name])
+);
+---
+
+<section
+  id="talks"
+  class="conference-section conference-talks surface-plaster"
+  aria-labelledby="talks-heading"
+>
+  <div class="layout-container conference-talks__grid">
+    <h2 id="talks-heading">{labels.talks}</h2>
+    {abstracts.map((abstract) => (
+      <article
+        id={`abstract-${abstract.id}`}
+        class="talk-abstract"
+        aria-labelledby={`abstract-title-${abstract.id}`}
+      >
+        <h3 id={`abstract-title-${abstract.id}`}>{abstract.title}</h3>
+        <a
+          class="talk-abstract__speaker"
+          href={`#speaker-${abstract.speakerId}`}
+        >
+          {speakerNames.get(abstract.speakerId)}
+        </a>
+        <div class="talk-abstract__body">
+          {abstract.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <a class="talk-abstract__return" href={`#session-${abstract.id}`}>
+          <ArrowUp size={16} stroke-width={1.5} aria-hidden="true" />
+          {labels.backToSession}
+        </a>
+      </article>
+    ))}
+  </div>
+</section>

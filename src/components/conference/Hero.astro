@@ -1,0 +1,40 @@
+---
+import {ArrowDown, ArrowUpRight} from "@lucide/astro";
+import {contactMailto, type ConferenceContent} from "@/data/conference";
+
+interface Props {
+  conference: ConferenceContent;
+}
+
+const {conference} = Astro.props;
+---
+
+<section
+  id="top"
+  class="conference-hero surface-plaster"
+  aria-labelledby="conference-title"
+>
+  <div class="layout-container conference-hero__grid">
+    <div class="conference-hero__content">
+      <h1 id="conference-title">{conference.title}</h1>
+      <p class="conference-hero__dateline">
+        <span>{conference.dateLabel}</span>
+        <span>{conference.placeLabel}</span>
+      </p>
+      <p class="conference-hero__lede">{conference.hero.lede}</p>
+      <div class="conference-hero__actions">
+        <a class="action action--primary" href="#programme">
+          {conference.hero.programmeAction}
+          <ArrowDown size={18} stroke-width={1.5} aria-hidden="true" />
+        </a>
+        <a
+          class="action action--secondary"
+          href={contactMailto(conference.contacts)}
+        >
+          {conference.hero.contactAction}
+          <ArrowUpRight size={18} stroke-width={1.5} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

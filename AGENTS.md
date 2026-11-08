@@ -1,0 +1,66 @@
+# AGENTS.md
+
+This file provides guidance to coding agents working in this repository.
+
+## Project Overview
+
+This is the **Generative AI and Algorithmic Manipulation** conference website for 28–29 January 2027 at KTH, Stockholm. It produces plain HTML (`output: "static"`, no adapter, no server, no secrets) deployable to any static host. Read `PRODUCT.md` for confirmed product facts and `DESIGN.md` when available for the approved visual system. Research and unresolved source conflicts live in `docs/research/`. Registration is out of scope.
+
+## Development Commands
+
+Commands marked with **(CI)** run in the `Test` workflow on every pull request.
+
+- `pnpm dev` - Start dev server at localhost:4321
+- `pnpm build` - Build the static site to `./dist/` (CI)
+- `pnpm preview` - Build, then preview the production output locally
+- `pnpm check` - Run Astro/TypeScript diagnostics (CI)
+- `pnpm format` - Format all files with Prettier
+- `pnpm format:check` - Verify Prettier formatting without writing (CI)
+
+## Architecture
+
+### Static-Only
+
+- No adapter, no SSR, no middleware, no API routes. Everything is prerendered at build time.
+- Language preference redirect is necessarily **client-side** (`src/scripts/language-detection.js`) since static hosts can't inspect `Accept-Language`.
+
+### i18n
+
+- Published locale: `en` only (default, unprefixed paths). Keep localization ready for Swedish (`sv`), but do not publish untranslated routes or a language switch until Swedish content exists.
+- Localized pages live in `src/pages/[...lang]/` and must export `getStaticPaths` returning `getLocaleStaticPaths()` from `src/i18n/utils.ts`.
+- Translations are JSON files in `src/translations/`; the `Translations` type is inferred from `en.json`, so a missing key in usage is a compile error.
+- Use `localizeUrl()` for internal page links; same-page fragment links remain relative. Never hardcode locale prefixes.
+- Demo blog, about and RSS routes have been removed. The only public pages are the landing page and 404.
+
+### Content
+
+- Typed conference data lives in `src/data/conference/`; interface labels live in `src/translations/en.json`. Preserve stable speaker, session and abstract IDs across future translations.
+- All essential content must render in HTML without JavaScript. Both programme days remain visible; biographies use native disclosure.
+- Keep editorial notes out of rendered content. Do not silently resolve source conflicts or invent unfinished programme details.
+- Sitemap is automatic via `@astrojs/sitemap` — keep `site` in `astro.config.mjs` accurate.
+
+### Theming
+
+- Semantic colour/surface tokens live in `src/styles.css`; type/space foundations, component layouts and hero rules live in `src/styles/`. The approved design has one authored light theme with explicit dark sections, not a dark-mode toggle.
+- Components must use **semantic tokens** (`bg-background`, `text-muted-foreground`, …), never raw palette colors (`bg-blue-600`).
+- `SetTheme.astro` must stay in `BaseLayout.astro`; it fixes the authored light theme and ignores legacy theme preferences.
+- Fonts are self-hosted via Astro's fonts API (`fonts` in `astro.config.mjs` + `<Font>` in `BaseLayout.astro`); do not add font CDN links.
+
+### SEO
+
+- `BaseLayout.astro` handles canonical URLs, Open Graph, Twitter cards and sitemap link. `src/consts.ts` defines the production origin and English identity.
+- Social-image tags are emitted only when a real image is supplied. The social card shows the Pull Field; the favicon still uses the earlier Ames-plan mark.
+- No inferred organizer/copyright attribution or unconfirmed event end time in metadata.
+
+## Repository Skills
+
+Procedural guides live in `skills/` as `SKILL.md` files. They are named in no other document, so check them before improvising a procedure:
+
+- `skills/indigo-theming/SKILL.md` - The theming system: palettes, semantic tokens, dark mode, typography, rebranding
+- `skills/indigo-i18n/SKILL.md` - Translation files, localized pages, locale-aware URLs, adding keys or a new language
+
+## Conventions
+
+- pnpm only. Node >= 22.13.0.
+- Import alias: `@/*` maps to `src/*`.
+- Prettier config: 2 spaces, no bracket spacing, no trailing commas (`bracketSpacing: false`, `trailingComma: "none"`).

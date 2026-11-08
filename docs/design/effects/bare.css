@@ -1,0 +1,67 @@
+/* Comparison sketch: no section backgrounds. Text sits directly on the
+   effect. guard.js adds a soft local wash behind a text block only where
+   the scene behind it makes the contrast very poor. */
+[data-immersive]
+  .page-content
+  :is(.surface-plaster, .surface-shade, .surface-blue, .surface-night):not(
+    .site-header
+  ) {
+  background: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Without a blue field, the blue strips read as light sections. */
+[data-immersive] .page-content .surface-blue {
+  --foreground: var(--ink);
+  --muted-foreground: var(--ink-muted-glass);
+  --border: var(--rule);
+  --ring: var(--ink);
+  --link: var(--blue-deep);
+  --link-hover: var(--ink);
+  --action-bg: var(--blue);
+  --action-fg: var(--plaster);
+  --action-bg-hover: var(--blue-deep);
+}
+
+[data-immersive] .conference-hero::before {
+  display: none;
+}
+
+[data-fx-guard] {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-fx-guard]::before {
+  position: absolute;
+  inset: -0.6em -1em;
+  z-index: -1;
+  background: var(--fx-backing, transparent);
+  filter: blur(18px);
+  opacity: 0;
+  content: "";
+  pointer-events: none;
+  transition: opacity 280ms ease-out;
+}
+
+[data-fx-guard="on"]::before {
+  opacity: 0.8;
+}
+
+/* Pull Field: a constant plaster ground. The programme keeps its night
+   colour at 95 % (the trails only just show through); the footer reads
+   as a light section. */
+html[data-fx="field"] .page-content .conference-programme.surface-night {
+  background: color-mix(in oklch, var(--night) 95%, transparent) !important;
+}
+
+html[data-fx="field"] .page-content .site-footer.surface-night {
+  --foreground: var(--ink);
+  --muted-foreground: var(--ink-muted-glass);
+  --border: var(--rule);
+  --ring: var(--ink);
+  --link: var(--blue-deep);
+  --link-hover: var(--ink);
+  color: var(--foreground);
+}

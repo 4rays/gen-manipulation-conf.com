@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Vantage — sketch</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1440px;
+        height: 900px;
+        overflow: hidden;
+        background: #eef2f6;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: #0b2f66;
+      }
+      header {
+        position: absolute;
+        top: 36px;
+        left: 72px;
+        right: 72px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+      }
+      header nav {
+        display: flex;
+        gap: 36px;
+      }
+      .room {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 820px;
+        height: 900px;
+      }
+      h1 {
+        position: absolute;
+        left: 72px;
+        top: 170px;
+        margin: 0;
+        font-family: Georgia, serif;
+        font-weight: 400;
+        font-size: 104px;
+        line-height: 0.98;
+        letter-spacing: -0.02em;
+        width: 640px;
+        color: #0b2f66;
+      }
+      .lede {
+        position: absolute;
+        left: 72px;
+        top: 600px;
+        width: 440px;
+        font-size: 18px;
+        line-height: 1.5;
+        color: #2c4a7a;
+      }
+      .meta {
+        position: absolute;
+        left: 72px;
+        bottom: 64px;
+        font-family: Georgia, serif;
+        font-size: 34px;
+      }
+      .cta {
+        position: absolute;
+        left: 72px;
+        bottom: 130px;
+        display: flex;
+        gap: 16px;
+      }
+      .btn {
+        padding: 16px 28px;
+        font-size: 16px;
+        border: 1.5px solid #0b2f66;
+      }
+      .p {
+        background: #0b4f9c;
+        color: #fff;
+        border-color: #0b4f9c;
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="room" viewBox="0 0 820 900">
+      <rect width="820" height="900" fill="#d6e1ee" />
+      <polygon
+        points="120,120 760,60 760,840 120,780"
+        fill="#c3d3e7"
+        stroke="#0b4f9c"
+        stroke-width="2"
+      />
+      <polygon
+        points="200,210 680,170 680,720 200,690"
+        fill="#e6edf5"
+        stroke="#0b4f9c"
+        stroke-width="1.5"
+      />
+      <g stroke="#0b4f9c" stroke-width="1" opacity=".5">
+        <line x1="120" y1="120" x2="200" y2="210" />
+        <line x1="760" y1="60" x2="680" y2="170" />
+        <line x1="760" y1="840" x2="680" y2="720" />
+        <line x1="120" y1="780" x2="200" y2="690" />
+      </g>
+      <rect x="270" y="420" width="46" height="270" rx="23" fill="#0b4f9c" />
+      <rect x="580" y="560" width="26" height="140" rx="13" fill="#0b4f9c" />
+    </svg>
+    <header>
+      <strong>Generative AI and Algorithmic Manipulation</strong>
+      <nav>
+        <span>About</span><span>Speakers</span><span>Programme</span
+        ><span>Venue</span>
+      </nav>
+    </header>
+    <h1>Generative AI and Algorithmic Manipulation</h1>
+    <p class="lede">
+      Two days at KTH on how systems steer what we see, believe and choose — and
+      what safeguards could look like.
+    </p>
+    <div class="cta">
+      <span class="btn p">See the programme</span
+      ><span class="btn">Contact</span>
+    </div>
+    <div class="meta">28–29 January 2027 · KTH, Stockholm</div>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html><meta charset="utf-8" />
+<body>
+  <iframe
+    id="f"
+    src="hero.html"
+    style="width: 1440px; height: 900px; border: 0"
+  ></iframe>
+  <pre id="o"></pre>
+  <script>
+    f.onload = async () => {
+      const d = f.contentDocument;
+      await d.fonts.ready;
+      const h = d.querySelector("h1");
+      const cs = d.defaultView.getComputedStyle(h);
+      const r = d.createRange();
+      r.selectNodeContents(h);
+      const lines = [...r.getClientRects()].map((x) => Math.round(x.width));
+      const t = d.createElement("span");
+      t.style.cssText =
+        "font:" +
+        cs.font +
+        ';font-variation-settings:"opsz" 24;letter-spacing:' +
+        cs.letterSpacing +
+        ";white-space:nowrap;position:absolute";
+      t.textContent = "Generative AI";
+      d.body.appendChild(t);
+      o.textContent = JSON.stringify({
+        fontSize: cs.fontSize,
+        maxWidth: cs.maxWidth,
+        width: h.getBoundingClientRect().width,
+        lines,
+        genAI: t.getBoundingClientRect().width
+      });
+    };
+  </script>
+</body>

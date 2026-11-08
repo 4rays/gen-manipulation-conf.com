@@ -1,0 +1,21 @@
+---
+import {ArrowRight} from "@lucide/astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import {defaultLocale} from "@/i18n/constants";
+import {localizeUrl, useTranslations} from "@/i18n/utils";
+
+const t = useTranslations(defaultLocale);
+---
+
+<PageLayout title={t.error["404"].title} locale={defaultLocale} fullWidth>
+  <section class="not-found surface-plaster">
+    <div class="layout-container">
+      <h1>{t.error["404"].subtitle}</h1>
+      <p>{t.error["404"].message}</p>
+      <a class="action action--primary" href={localizeUrl("/", defaultLocale)}>
+        {t.error.goHome}
+        <ArrowRight size={18} stroke-width={1.5} aria-hidden="true" />
+      </a>
+    </div>
+  </section>
+</PageLayout>

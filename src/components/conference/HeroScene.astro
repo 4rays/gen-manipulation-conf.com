@@ -1,0 +1,37 @@
+---
+// The page-wide Pull Field. Decorative: the parent .page-scene is
+// aria-hidden and never takes pointer, focus or selection. The picture is a
+// rendered frame of the field: the first paint, and the complete fallback
+// without JavaScript or canvas.
+---
+
+<div class="field-scene" data-hero-scene data-renderer="still">
+  <picture class="field-scene__still">
+    <source
+      media="(min-aspect-ratio: 1/1)"
+      type="image/avif"
+      srcset="/images/field-desk.avif"
+    />
+    <source
+      media="(min-aspect-ratio: 1/1)"
+      type="image/webp"
+      srcset="/images/field-desk.webp"
+    />
+    <source type="image/avif" srcset="/images/field-mob.avif" />
+    <img
+      src="/images/field-mob.webp"
+      alt=""
+      width="780"
+      height="1688"
+      decoding="async"
+      fetchpriority="low"
+    />
+  </picture>
+</div>
+
+<script>
+  import {initializePageScene} from "@/scripts/page-scene";
+  document
+    .querySelectorAll<HTMLElement>("[data-hero-scene]")
+    .forEach(initializePageScene);
+</script>

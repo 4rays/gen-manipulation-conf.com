@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Blue Hour on the Ice — sketch</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1440px;
+        height: 900px;
+        overflow: hidden;
+        background: #0d1838;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: #eef3fb;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+      header {
+        position: absolute;
+        top: 36px;
+        left: 72px;
+        right: 72px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+        letter-spacing: 0.01em;
+      }
+      header nav {
+        display: flex;
+        gap: 36px;
+        color: #c9d6ee;
+      }
+      h1 {
+        position: absolute;
+        left: 72px;
+        top: 150px;
+        margin: 0;
+        font-family: "Didot", "Bodoni 72", Georgia, serif;
+        font-weight: 400;
+        font-size: 132px;
+        line-height: 0.92;
+        letter-spacing: -0.02em;
+        width: 1050px;
+        color: #f4f7fb;
+      }
+      h1 em {
+        font-style: italic;
+        color: #bcd0f0;
+      }
+      .meta {
+        position: absolute;
+        left: 72px;
+        bottom: 72px;
+        display: flex;
+        gap: 64px;
+        align-items: flex-end;
+      }
+      .date {
+        font-family: "Didot", "Bodoni 72", Georgia, serif;
+        font-size: 44px;
+        line-height: 1;
+      }
+      .place {
+        font-size: 16px;
+        color: #c9d6ee;
+        line-height: 1.5;
+      }
+      .cta {
+        position: absolute;
+        right: 72px;
+        bottom: 72px;
+        display: flex;
+        gap: 16px;
+      }
+      .btn {
+        padding: 18px 30px;
+        border-radius: 999px;
+        font-size: 17px;
+      }
+      .p {
+        background: #f2b24c;
+        color: #13203f;
+      }
+      .s {
+        border: 1px solid #9fb6dd;
+        color: #eef3fb;
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="scene" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0d1838" />
+          <stop offset=".45" stop-color="#22417f" />
+          <stop offset=".62" stop-color="#6f8fc7" />
+          <stop offset=".64" stop-color="#a9bde0" />
+          <stop offset="1" stop-color="#3c5a98" />
+        </linearGradient>
+        <linearGradient id="ice" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#b9cbe8" />
+          <stop offset="1" stop-color="#4a6aa8" />
+        </linearGradient>
+      </defs>
+      <rect width="1440" height="900" fill="url(#sky)" />
+      <path
+        d="M0 560 L180 548 L260 552 L420 540 L520 546 L700 536 L860 544 L980 538 L1120 548 L1300 540 L1440 550 L1440 576 L0 576Z"
+        fill="#1d3466"
+        opacity=".85"
+      />
+      <rect y="574" width="1440" height="326" fill="url(#ice)" />
+      <path
+        d="M960 576 L990 576 L1180 900 L700 900Z"
+        fill="#dfe8f6"
+        opacity=".85"
+      />
+      <g stroke="#2a3f72" stroke-width="3">
+        <line x1="950" y1="576" x2="950" y2="560" />
+        <line x1="1000" y1="576" x2="1000" y2="560" />
+        <line x1="930" y1="610" x2="930" y2="584" />
+        <line x1="1025" y1="610" x2="1025" y2="584" />
+        <line x1="890" y1="670" x2="890" y2="624" />
+        <line x1="1070" y1="670" x2="1070" y2="624" />
+        <line x1="820" y1="780" x2="820" y2="696" />
+        <line x1="1135" y1="780" x2="1135" y2="696" />
+      </g>
+      <g fill="#f2b24c">
+        <circle cx="950" cy="559" r="2.5" />
+        <circle cx="1000" cy="559" r="2.5" />
+        <circle cx="930" cy="583" r="3.5" />
+        <circle cx="1025" cy="583" r="3.5" />
+        <circle cx="890" cy="622" r="5" />
+        <circle cx="1070" cy="622" r="5" />
+        <circle cx="820" cy="693" r="7" />
+        <circle cx="1135" cy="693" r="7" />
+      </g>
+    </svg>
+    <header>
+      <strong>GenAI &amp; Algorithmic Manipulation</strong>
+      <nav>
+        <span>About</span><span>Speakers</span><span>Programme</span
+        ><span>Venue</span><span>Contact</span>
+      </nav>
+    </header>
+    <h1>Generative AI and <em>Algorithmic</em> Manipulation</h1>
+    <div class="meta">
+      <div class="date">28–29 January 2027</div>
+      <div class="place">
+        KTH, Stockholm<br />Lecture room Q1, Malvinas väg 4
+      </div>
+    </div>
+    <div class="cta">
+      <span class="btn p">See the programme</span
+      ><span class="btn s">Contact the organiser</span>
+    </div>
+  </body>
+</html>

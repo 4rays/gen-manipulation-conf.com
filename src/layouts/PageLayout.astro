@@ -1,0 +1,69 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import HeroScene from "@/components/conference/HeroScene.astro";
+import type {Locale} from "@/i18n/constants";
+import {useTranslations} from "@/i18n/utils";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  locale: Locale;
+  localized?: boolean;
+  fullWidth?: boolean;
+  immersive?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  locale,
+  localized = true,
+  fullWidth = false,
+  immersive = false
+} = Astro.props;
+const t = useTranslations(locale).conference;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  locale={locale}
+  immersive={immersive}
+>
+  <Fragment slot="head">
+    <slot name="head" />
+  </Fragment>
+  {immersive && (
+    <div class="page-scene" aria-hidden="true" data-page-scene>
+      <HeroScene />
+    </div>
+  )}
+  <div class="page-content" data-page-content>
+    <a
+      class="skip-link action action--primary sr-only focus:not-sr-only"
+      href="#main-content"
+    >
+      {t.skipToContent}
+    </a>
+    <Header locale={locale} localized={localized} />
+    <main
+      id="main-content"
+      tabindex="-1"
+      class:list={[
+        "site-main",
+        !fullWidth && "mx-auto w-full max-w-4xl px-6 py-10"
+      ]}
+    >
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </div>
+</BaseLayout>

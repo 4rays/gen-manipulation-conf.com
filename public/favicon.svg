@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Vantage mark: the Ames-room floor plan (back edge slanted) seen from one red point. -->
+  <rect width="32" height="32" fill="#f1f5f8"/>
+  <path d="M6 5.5 26 11v10.5H6z" fill="#0a5e9b"/>
+  <circle cx="16" cy="27" r="2.6" fill="#e14c2f"/>
+</svg>

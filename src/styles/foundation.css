@@ -1,0 +1,147 @@
+:root {
+  --radius: 0;
+  --gutter: clamp(1rem, 5.333333vw - 0.3rem, 4.5rem);
+  --container-width: 88rem;
+  --grid-gap: clamp(1rem, 0.6rem + 1.6vw, 2rem);
+  --space-section: clamp(5rem, 3rem + 7vw, 10rem);
+  --space-section-end: clamp(4rem, 2.5rem + 5vw, 8rem);
+  --space-heading: clamp(2.5rem, 1.8rem + 2.5vw, 4.5rem);
+  --space-block: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+  --space-row: 1.25rem;
+  --space-row-tight: 0.625rem;
+
+  --text-display: clamp(2.75rem, 1rem + 5.4vw, 4.5rem);
+  --text-h2: clamp(2.25rem, 1.4rem + 3vw, 4.25rem);
+  --text-h3: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --text-title: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+  --text-figure: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --text-lede: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+  --text-body-large: 1.1875rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.9375rem;
+  --text-label: 0.875rem;
+  --text-nav: 1rem;
+  --text-time: 0.9375rem;
+}
+
+@layer base {
+  html {
+    background: var(--background);
+    color: var(--foreground);
+    scrollbar-color: var(--ink-muted) var(--plaster);
+    caret-color: var(--blue);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-width: 20rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    font-weight: 400;
+    line-height: 1.6;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    hanging-punctuation: first;
+  }
+
+  :where(h1, h2, h3, h4) {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-synthesis: none;
+    font-optical-sizing: auto;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-display);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 24;
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 24;
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 20;
+  }
+
+  h4 {
+    font-size: var(--text-title);
+    line-height: 1.25;
+    font-variation-settings: "opsz" 16;
+  }
+
+  a {
+    color: var(--link);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in oklch, currentColor 45%, transparent);
+    text-underline-offset: 0.22em;
+    transition:
+      text-decoration-color 160ms ease-out,
+      color 160ms ease-out;
+  }
+
+  a:hover {
+    color: var(--link-hover);
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  :where(button, summary, select) {
+    cursor: pointer;
+  }
+
+  :where(button, input, select, textarea) {
+    font: inherit;
+  }
+
+  address {
+    font-style: normal;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+.surface-blue,
+.surface-night {
+  -webkit-font-smoothing: antialiased;
+}
+
+.layout-container {
+  width: min(100% - 2 * var(--gutter), var(--container-width));
+  margin-inline: auto;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a {
+    transition: none;
+  }
+}

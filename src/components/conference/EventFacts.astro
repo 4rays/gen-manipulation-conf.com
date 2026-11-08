@@ -1,0 +1,20 @@
+---
+import type {ConferenceContent} from "@/data/conference";
+
+interface Props {
+  facts: ConferenceContent["facts"];
+}
+
+const {facts} = Astro.props;
+---
+
+<div class="event-facts surface-blue">
+  <dl class="layout-container">
+    {facts.map((fact) => (
+      <div>
+        <dt>{fact.label}</dt>
+        <dd>{fact.value}</dd>
+      </div>
+    ))}
+  </dl>
+</div>

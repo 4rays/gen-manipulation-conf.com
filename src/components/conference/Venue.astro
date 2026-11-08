@@ -1,0 +1,70 @@
+---
+import {ArrowUpRight} from "@lucide/astro";
+import type {ConferenceContent} from "@/data/conference";
+import type {Translations} from "@/i18n/constants";
+
+interface Props {
+  venue: ConferenceContent["venue"];
+  contacts: ConferenceContent["contacts"];
+  labels: Translations["conference"];
+}
+
+const {venue, contacts, labels} = Astro.props;
+---
+
+<section
+  id="venue"
+  class="conference-section conference-venue surface-blue"
+  aria-labelledby="venue-heading"
+>
+  <div class="layout-container">
+    <h2 id="venue-heading">{labels.venue}</h2>
+    <div class="conference-venue__grid">
+      <div class="conference-venue__address">
+        <h3>{venue.institution}</h3>
+        <p>
+          {venue.room}
+          <br />
+          {venue.street}, {venue.floor}
+          <br />
+          {venue.city}, {venue.country}
+        </p>
+        <a class="action action--secondary" href={venue.mapUrl}>
+          {labels.mapAction}
+          <ArrowUpRight size={18} stroke-width={1.5} aria-hidden="true" />
+        </a>
+      </div>
+      <div class="conference-venue__dinner">
+        <h3>{labels.dinner}</h3>
+        <p>{venue.dinner.description}</p>
+        <p class="conference-venue__dinner-time">
+          <time datetime={`${venue.dinner.day}T${venue.dinner.start}`}>
+            {venue.dinner.start}
+          </time>
+          –
+          <time datetime={`${venue.dinner.day}T${venue.dinner.end}`}>
+            {venue.dinner.end}
+          </time>
+        </p>
+        <p class="conference-venue__dinner-note">{venue.dinner.note}</p>
+      </div>
+      <div class="conference-venue__contact">
+        <h3>{labels.contactHeading}</h3>
+        {contacts.map(({name, email, profile}) => (
+          <div class="conference-venue__person">
+            <address>
+              <p>{name}</p>
+              <a href={`mailto:${email}`}>{email}</a>
+            </address>
+            {profile && (
+              <a href={profile.url}>
+                {profile.label}
+                <ArrowUpRight size={16} stroke-width={1.5} aria-hidden="true" />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

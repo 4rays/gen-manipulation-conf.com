@@ -1,0 +1,24 @@
+---
+import {getConference} from "@/data/conference";
+import type {Locale} from "@/i18n/constants";
+
+interface Props {
+  locale: Locale;
+}
+
+const conference = getConference(Astro.props.locale);
+---
+
+<footer class="site-footer surface-night">
+  <div class="layout-container site-footer__inner">
+    <p class="site-footer__title">{conference.title}</p>
+    <div class="site-footer__details">
+      <p>
+        {conference.dateLabel} · {conference.placeLabel}
+      </p>
+      {conference.contacts.map(({email}) => (
+        <a href={`mailto:${email}`}>{email}</a>
+      ))}
+    </div>
+  </div>
+</footer>

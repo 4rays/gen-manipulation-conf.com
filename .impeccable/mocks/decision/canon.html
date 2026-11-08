@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Category standard — sketch</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1440px;
+        height: 900px;
+        overflow: hidden;
+        background: #0a1020;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: #fff;
+      }
+      .blob {
+        position: absolute;
+        right: 80px;
+        top: 140px;
+        width: 560px;
+        height: 560px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 35%,
+          #7fb2ff,
+          #1d4fd8 55%,
+          #0a1020 75%
+        );
+      }
+      header {
+        position: absolute;
+        top: 32px;
+        left: 72px;
+        right: 72px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+      }
+      header nav {
+        display: flex;
+        gap: 32px;
+        color: #b8c3d9;
+      }
+      h1 {
+        position: absolute;
+        left: 72px;
+        top: 230px;
+        margin: 0;
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        width: 720px;
+      }
+      .lede {
+        position: absolute;
+        left: 72px;
+        top: 500px;
+        width: 520px;
+        font-size: 20px;
+        line-height: 1.5;
+        color: #b8c3d9;
+      }
+      .cta {
+        position: absolute;
+        left: 72px;
+        top: 620px;
+        display: flex;
+        gap: 14px;
+      }
+      .btn {
+        padding: 16px 26px;
+        border-radius: 10px;
+        font-size: 16px;
+        background: #2563eb;
+      }
+      .s {
+        background: transparent;
+        border: 1px solid #3b4a6b;
+      }
+      .row {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        bottom: 48px;
+        display: flex;
+        gap: 24px;
+      }
+      .row div {
+        flex: 1;
+        height: 64px;
+        border: 1px solid #24304a;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob"></div>
+    <header>
+      <strong>GenAI Manipulation 2027</strong>
+      <nav>
+        <span>About</span><span>Speakers</span><span>Agenda</span
+        ><span>Venue</span>
+      </nav>
+    </header>
+    <h1>Generative AI and Algorithmic Manipulation</h1>
+    <p class="lede">
+      28–29 January 2027 · KTH Royal Institute of Technology, Stockholm
+    </p>
+    <div class="cta">
+      <span class="btn">View agenda</span
+      ><span class="btn s">Meet the speakers</span>
+    </div>
+    <div class="row">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </body>
+</html>

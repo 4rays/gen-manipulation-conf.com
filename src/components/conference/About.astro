@@ -1,0 +1,29 @@
+---
+import type {ConferenceContent} from "@/data/conference";
+
+interface Props {
+  about: ConferenceContent["about"];
+}
+
+const {about} = Astro.props;
+---
+
+<section
+  id="about"
+  class="conference-section conference-about surface-plaster"
+  aria-labelledby="about-heading"
+>
+  <div class="layout-container conference-about__grid">
+    <h2 id="about-heading">{about.heading}</h2>
+    <div class="conference-about__copy">
+      {about.paragraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+    <ul class="conference-about__subjects" role="list">
+      {about.subjects.map((subject) => (
+        <li>{subject}</li>
+      ))}
+    </ul>
+  </div>
+</section>

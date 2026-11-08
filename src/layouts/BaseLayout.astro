@@ -1,0 +1,83 @@
+---
+import {Font} from "astro:assets";
+import SetTheme from "@/components/SetTheme.astro";
+import {SITE_URL, SITE_SOCIAL_IMAGE, SITE_SOCIAL_IMAGE_ALT} from "@/consts";
+import {getConference} from "@/data/conference";
+import type {Locale} from "@/i18n/constants";
+import "@/styles.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  locale: Locale;
+  immersive?: boolean;
+}
+
+const {locale, image: rawImage, imageAlt, immersive = false} = Astro.props;
+const conference = getConference(locale);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+const isDefaultImage = !rawImage?.trim();
+const image = new URL(
+  rawImage?.trim() || SITE_SOCIAL_IMAGE,
+  Astro.site ?? SITE_URL
+);
+const socialImageAlt =
+  imageAlt ?? (isDefaultImage ? SITE_SOCIAL_IMAGE_ALT : conference.title);
+const description = Astro.props.description ?? conference.description;
+const pageTitle = Astro.props.title;
+const title =
+  pageTitle && pageTitle !== conference.title
+    ? `${pageTitle} | ${conference.title}`
+    : conference.title;
+---
+
+<!doctype html>
+<html lang={locale} data-immersive={immersive ? "" : undefined}>
+  <head>
+    <SetTheme />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f1f5f8" />
+    <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-hedvig" preload={[{style: "normal"}]} />
+    <Font cssVariable="--font-familjen" preload={[{style: "normal"}]} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/favicon.ico"
+      sizes="16x16 32x32"
+    />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={conference.title} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    {isDefaultImage && <meta property="og:image:width" content="1200" />}
+    {isDefaultImage && <meta property="og:image:height" content="630" />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    <slot name="head" />
+  </head>
+  <body class="bg-background text-foreground min-h-screen">
+    <slot />
+  </body>
+</html>
+
+<script src="@/scripts/language-detection.js"></script>

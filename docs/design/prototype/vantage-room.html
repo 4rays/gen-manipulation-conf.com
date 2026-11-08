@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vantage Room Prototype</title>
+    <!--
+  Design reference only. Not production code. Proves the Ames-room
+  construction, the look, and the viewpoint change described in
+  docs/design/hero-scene.md. Query params:
+    ?view=side    start in the side view
+    ?still=1      render once, no interaction (for fallback captures)
+    ?w=…&h=…      fixed canvas size for captures
+-->
+    <style>
+      :root {
+        --plaster: oklch(0.968 0.006 245);
+        --ink: oklch(0.255 0.075 258);
+        color-scheme: light;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--plaster);
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      button {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        font: 500 16px system-ui;
+        min-height: 44px;
+        padding: 0 18px;
+        border: 1px solid var(--ink);
+        background: var(--plaster);
+        color: var(--ink);
+        cursor: pointer;
+      }
+      button[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--plaster);
+      }
+      body.still button {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <button id="t" type="button" aria-pressed="false">
+      See the room from the side
+    </button>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+
+      const params = new URLSearchParams(location.search);
+      const STILL = params.has("still");
+      if (STILL) document.body.classList.add("still");
+
+      // Palette (sRGB hex from docs/design/tokens.md)
+      const C = {
+        plaster: 0xf1f5f8,
+        shade: 0xe2ebf2,
+        rule: 0xc7d2df,
+        ink: 0x082246,
+        inkMuted: 0x3e5776,
+        blue: 0x0a5e9b,
+        blueDeep: 0x0b4378,
+        sky: 0x95c4e7,
+        signal: 0xe14c2f
+      };
+
+      // ---- The apparent room (what the eye at V believes it sees) -------------
+      // Camera-space units: V (the vantage point) is the origin, looking down -z.
+      const W = 6.0; // apparent width
+      const H = 3.4; // apparent height
+      const EYE = 1.55; // eye height above the apparent floor
+      const NEAR = 2.2; // front opening distance
+      const FAR = 8.0; // back wall distance
+      const ALPHA = 0.105; // distortion strength: k(x) = 1 / (1 + ALPHA * x)
+
+      // Projective map that fixes V and every ray through V. Planes stay planes,
+      // so the room still looks rectangular from V, but true depth varies with x.
+      function ames(p) {
+        const k = 1 / (1 + ALPHA * p.x);
+        return p.multiplyScalar(k);
+      }
+
+      function quad(a, b, c, d, segs = 1) {
+        // Subdivided quad a-b-c-d (counter-clockwise from the inside)
+        const g = new THREE.PlaneGeometry(1, 1, segs, segs);
+        const pos = g.attributes.position;
+        const v = new THREE.Vector3();
+        for (let i = 0; i < pos.count; i++) {
+          const u = pos.getX(i) + 0.5,
+            t = pos.getY(i) + 0.5;
+          const top = new THREE.Vector3().lerpVectors(d, c, u);
+          const bot = new THREE.Vector3().lerpVectors(a, b, u);
+          v.lerpVectors(bot, top, t);
+          ames(v);
+          pos.setXYZ(i, v.x, v.y, v.z);
+        }
+        g.computeVertexNormals();
+        const col = new Float32Array(pos.count * 3).fill(1);
+        g.setAttribute("color", new THREE.BufferAttribute(col, 3));
+        return g;
+      }
+
+      // Baked shade: a quiet falloff toward the floor, like plaster in daylight.
+      // The apparent height is recovered from the true position: y = y' / (1 - ALPHA * x').
+      function shadeByHeight(g, apparentTop, apparentBottom) {
+        const pos = g.attributes.position,
+          col = g.attributes.color;
+        for (let i = 0; i < pos.count; i++) {
+          const ya = pos.getY(i) / (1 - ALPHA * pos.getX(i));
+          const t = Math.min(
+            1,
+            Math.max(0, (ya - apparentBottom) / (apparentTop - apparentBottom))
+          );
+          const v = 0.9 + 0.1 * t;
+          col.setXYZ(i, v, v, v);
+        }
+        col.needsUpdate = true;
+        return g;
+      }
+
+      const P = (x, y, z) => new THREE.Vector3(x, y, z);
+      const x0 = -W / 2,
+        x1 = W / 2,
+        yF = -EYE,
+        yC = H - EYE,
+        zN = -NEAR,
+        zF = -FAR;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(C.plaster);
+
+      const room = new THREE.Group();
+      scene.add(room);
+
+      // Flat tones straight from the palette: a drawn plate, not a lit render.
+      const shell = (color) =>
+        new THREE.MeshBasicMaterial({
+          color,
+          side: THREE.DoubleSide,
+          transparent: true,
+          vertexColors: true
+        });
+      const matBack = shell(C.shade);
+      const matLeft = shell(0xd6e1ec);
+      const matRight = shell(0xe9eff5);
+      const matCeil = shell(C.plaster); // equal to the page ground: no visible frame edge
+      const fading = [matLeft, matRight, matCeil, matBack];
+      const lineMat = new THREE.LineBasicMaterial({
+        color: C.ink,
+        transparent: true,
+        opacity: 0.42
+      });
+
+      function add(geo, mat, edges = true) {
+        room.add(new THREE.Mesh(geo, mat));
+        if (edges)
+          room.add(
+            new THREE.LineSegments(new THREE.EdgesGeometry(geo, 30), lineMat)
+          );
+      }
+
+      // Shell
+      add(
+        shadeByHeight(
+          quad(P(x0, yF, zF), P(x1, yF, zF), P(x1, yC, zF), P(x0, yC, zF), 12),
+          yC,
+          yF
+        ),
+        matBack
+      ); // back
+      add(
+        shadeByHeight(
+          quad(P(x0, yF, zN), P(x0, yF, zF), P(x0, yC, zF), P(x0, yC, zN), 12),
+          yC,
+          yF
+        ),
+        matLeft
+      ); // left
+      add(
+        shadeByHeight(
+          quad(P(x1, yF, zF), P(x1, yF, zN), P(x1, yC, zN), P(x1, yC, zF), 12),
+          yC,
+          yF
+        ),
+        matRight
+      ); // right
+      add(
+        quad(P(x0, yC, zF), P(x1, yC, zF), P(x1, yC, zN), P(x0, yC, zN)),
+        matCeil
+      ); // ceiling
+
+      // Checker floor: square tiles in the apparent room, distorted in truth
+      const TILES_X = 8,
+        TILES_Z = 8;
+      const tileA = new THREE.MeshBasicMaterial({
+        color: C.blue,
+        side: THREE.DoubleSide
+      });
+      const tileB = new THREE.MeshBasicMaterial({
+        color: C.plaster,
+        side: THREE.DoubleSide
+      });
+      for (let i = 0; i < TILES_X; i++) {
+        for (let j = 0; j < TILES_Z; j++) {
+          const ax = x0 + (W * i) / TILES_X,
+            bx = x0 + (W * (i + 1)) / TILES_X;
+          const az = zN - ((FAR - NEAR) * j) / TILES_Z,
+            bz = zN - ((FAR - NEAR) * (j + 1)) / TILES_Z;
+          const g = quad(
+            P(ax, yF, az),
+            P(bx, yF, az),
+            P(bx, yF, bz),
+            P(ax, yF, bz)
+          );
+          room.add(new THREE.Mesh(g, (i + j) % 2 ? tileA : tileB));
+        }
+      }
+      const floorOutline = quad(
+        P(x0, yF, zN),
+        P(x1, yF, zN),
+        P(x1, yF, zF),
+        P(x0, yF, zF)
+      );
+      room.add(
+        new THREE.LineSegments(new THREE.EdgesGeometry(floorOutline), lineMat)
+      );
+
+      // Two windows in the back wall (openings onto sky blue)
+      const matWin = shell(C.sky);
+      fading.push(matWin);
+      for (const [wx0, wx1] of [
+        [-2.2, -0.9],
+        [0.9, 2.2]
+      ]) {
+        const g = quad(
+          P(wx0, 0.1, zF + 0.01),
+          P(wx1, 0.1, zF + 0.01),
+          P(wx1, 1.35, zF + 0.01),
+          P(wx0, 1.35, zF + 0.01)
+        );
+        add(g, matWin);
+      }
+
+      // ---- Two identical figures, standing in the two back corners ------------
+      // Same true size. From V the left one (far) looks small, the right one (near)
+      // looks tall. Abstract columns with a rounded top: people, without faces.
+      const FIG_H = 1.45,
+        FIG_R = 0.2;
+      const matFig = new THREE.MeshLambertMaterial({color: C.ink});
+      function figure(apparentX, apparentZ) {
+        const foot = ames(P(apparentX, yF, apparentZ));
+        const g = new THREE.CapsuleGeometry(FIG_R, FIG_H - 2 * FIG_R, 6, 24);
+        const m = new THREE.Mesh(g, matFig);
+        m.position.set(foot.x, foot.y + FIG_H / 2, foot.z);
+        scene.add(m);
+        return m;
+      }
+      const figures = [figure(x0 + 1.1, zF + 0.8), figure(x1 - 1.1, zF + 0.8)];
+
+      // ---- Vantage point and sight lines (visible from the side only) ---------
+      const vantage = new THREE.Group();
+      const dot = new THREE.Mesh(
+        new THREE.SphereGeometry(0.07, 24, 16),
+        new THREE.MeshBasicMaterial({color: C.signal})
+      );
+      vantage.add(dot);
+      const sightMat = new THREE.LineBasicMaterial({
+        color: C.signal,
+        transparent: true,
+        opacity: 0.85
+      });
+      // Sight lines: to both back floor corners and to the top of each figure
+      const targets = [
+        ames(P(x0, yF, zF)),
+        ames(P(x1, yF, zF)),
+        ...figures.map((f) => f.position.clone().add(P(0, FIG_H / 2, 0)))
+      ];
+      const sightGeo = new THREE.BufferGeometry().setFromPoints(
+        targets.flatMap((c) => [P(0, 0, 0), c])
+      );
+      vantage.add(new THREE.LineSegments(sightGeo, sightMat));
+      scene.add(vantage);
+
+      // Light: soft sky from above, one low window light from the back left
+      scene.add(new THREE.HemisphereLight(0xffffff, 0xb8c6d6, 2.1));
+      const sun = new THREE.DirectionalLight(0xffffff, 1.1);
+      sun.position.set(-3, 4, 2);
+      scene.add(sun);
+
+      // ---- Camera and the two viewpoints --------------------------------------
+      const canvas = document.getElementById("c");
+      const fixedW = Number(params.get("w")) || 0,
+        fixedH = Number(params.get("h")) || 0;
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        preserveDrawingBuffer: STILL
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const camera = new THREE.PerspectiveCamera(46, 1, 0.05, 100);
+      const center = ames(P(0, 0.1, -(NEAR + FAR) / 2));
+
+      // Pose A: exactly at V, looking straight down the room
+      // A slight downward pitch: any rotation about V keeps the illusion intact.
+      const poseV = {pos: P(0, 0, 0), target: P(0, -0.3, -FAR)};
+      // Pose B: up and to the right, so the trapezoid and the vantage point show
+      // Pose B: high above and in front, looking down into the room. The walls
+      // fade to line drawing, so the trapezoid plan and the true figure positions show.
+      const poseSide = {pos: P(-0.4, 13.5, 1.6), target: P(-0.9, -1.6, -5.6)};
+
+      let t = params.get("view") === "side" ? 1 : 0; // 0 = V, 1 = side
+      let goal = t;
+      const pointer = {x: 0, y: 0};
+
+      function ease(x) {
+        return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+      }
+
+      function place() {
+        const e = ease(t);
+        const pos = new THREE.Vector3().lerpVectors(poseV.pos, poseSide.pos, e);
+        const target = new THREE.Vector3().lerpVectors(
+          poseV.target,
+          poseSide.target,
+          e
+        );
+        // Arc the path so the camera swings around rather than sliding through walls
+        pos.x += Math.sin(e * Math.PI) * 1.2;
+        pos.z += Math.sin(e * Math.PI) * 2.2;
+        // Small pointer drift near V only: just enough to hint that something is off
+        const drift = 1 - e;
+        pos.x += pointer.x * 0.22 * drift;
+        pos.y += pointer.y * 0.12 * drift;
+        camera.position.copy(pos);
+        // Roll toward a plan view: the back wall ends up at the top of the frame
+        camera.up.set(0, 1 - e, -e).normalize();
+        camera.lookAt(target);
+        // The vantage marker is only meaningful away from V
+        vantage.visible = e > 0.15;
+        // Walls and ceiling dissolve into their outlines
+        for (const m of fading) {
+          m.opacity = 1 - 0.88 * Math.min(1, e * 1.6);
+          m.depthWrite = m.opacity > 0.99;
+        }
+        matCeil.opacity = 1 - Math.min(1, e * 2.2);
+        sightMat.opacity = Math.min(1, (e - 0.15) / 0.5) * 0.85;
+      }
+
+      function resize() {
+        const w = fixedW || canvas.clientWidth,
+          h = fixedH || canvas.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        // Keep the room filling the frame on tall (mobile) bands
+        camera.fov = camera.aspect < 1 ? 58 : 46;
+        camera.updateProjectionMatrix();
+      }
+
+      let raf = 0,
+        last = 0;
+      function frame(now) {
+        raf = 0;
+        const dt = Math.min(0.05, (now - (last || now)) / 1000);
+        last = now;
+        if (t !== goal) {
+          const step = dt / 1.6; // 1.6 s transition
+          t = goal > t ? Math.min(goal, t + step) : Math.max(goal, t - step);
+          request();
+        } else last = 0;
+        place();
+        renderer.render(scene, camera);
+      }
+      function request() {
+        if (!raf) raf = requestAnimationFrame(frame);
+      }
+
+      if (fixedW) {
+        canvas.style.width = fixedW + "px";
+        canvas.style.height = fixedH + "px";
+      }
+      resize();
+      place();
+      renderer.render(scene, camera);
+      document.title = "ready";
+
+      if (!STILL) {
+        addEventListener("resize", () => {
+          resize();
+          request();
+        });
+        const btn = document.getElementById("t");
+        btn.setAttribute("aria-pressed", String(goal === 1));
+        btn.addEventListener("click", () => {
+          goal = goal === 1 ? 0 : 1;
+          btn.setAttribute("aria-pressed", String(goal === 1));
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) t = goal;
+          request();
+        });
+        if (
+          matchMedia("(pointer: fine)").matches &&
+          !matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+          addEventListener("pointermove", (e) => {
+            pointer.x = (e.clientX / innerWidth) * 2 - 1;
+            pointer.y = -((e.clientY / innerHeight) * 2 - 1);
+            request();
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+---
+import {ArrowUpRight, Plus} from "@lucide/astro";
+import type {Speaker} from "@/data/conference";
+import type {Translations} from "@/i18n/constants";
+
+interface Props {
+  speakers: Speaker[];
+  labels: Translations["conference"];
+  /** Section id and heading; the organisers section reuses this layout. */
+  id?: string;
+  heading?: string;
+}
+
+const {
+  speakers,
+  labels,
+  id = "speakers",
+  heading = labels.speakers
+} = Astro.props;
+---
+
+<section
+  id={id}
+  class="conference-section conference-speakers surface-shade"
+  aria-labelledby={`${id}-heading`}
+>
+  <div class="layout-container">
+    <h2 id={`${id}-heading`}>{heading}</h2>
+    <div class="speaker-list">
+      {speakers.map((speaker) => (
+        <article
+          id={`speaker-${speaker.id}`}
+          class="speaker"
+          aria-labelledby={`speaker-name-${speaker.id}`}
+        >
+          {speaker.portrait && (
+            <img
+              src={speaker.portrait.src}
+              alt={speaker.portrait.alt}
+              width={speaker.portrait.width}
+              height={speaker.portrait.height}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <div class="speaker__identity">
+            <h3 id={`speaker-name-${speaker.id}`}>{speaker.name}</h3>
+            <p class="speaker__role">{speaker.role}</p>
+            {speaker.institution && (
+              <p class="speaker__institution">{speaker.institution}</p>
+            )}
+          </div>
+          <div class="speaker__description">
+            <p>{speaker.shortBio}</p>
+            <details>
+              <summary>
+                {labels.readBiography}
+                <span class="sr-only"> — {speaker.name}</span>
+                <Plus size={18} stroke-width={1.5} aria-hidden="true" />
+              </summary>
+              <div class="speaker__biography">
+                {speaker.fullBio.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+                {speaker.profileUrl && (
+                  <a href={speaker.profileUrl}>
+                    {speaker.profileLabel ?? labels.speakerProfile}
+                    <ArrowUpRight
+                      size={16}
+                      stroke-width={1.5}
+                      aria-hidden="true"
+                    />
+                  </a>
+                )}
+              </div>
+            </details>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
