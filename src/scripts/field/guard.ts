@@ -19,6 +19,8 @@ const SELECTOR = [
   "main dt",
   "main dd",
   "main summary",
+  "main label",
+  "main legend",
   ".programme-session__time",
   ".conference-about__subjects li",
   ".talk-abstract__speaker",
@@ -171,11 +173,15 @@ export function startGuard(sample: () => FieldSample) {
     }
     frame = requestAnimationFrame(loop);
   };
-  // Biographies open and close; layout and fonts settle late.
+  // Biographies open and close, the registration form shows and hides
+  // parts of itself, and layout and fonts settle late.
   const mutations = new MutationObserver(collect);
   collect();
   document.fonts?.ready.then(collect);
-  mutations.observe(document.body, {subtree: true, attributeFilter: ["open"]});
+  mutations.observe(document.body, {
+    subtree: true,
+    attributeFilter: ["open", "hidden"]
+  });
   addEventListener("scroll", onScroll, {passive: true});
   addEventListener("resize", collect, {passive: true});
   frame = requestAnimationFrame(loop);

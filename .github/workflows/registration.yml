@@ -1,0 +1,35 @@
+name: Registration
+
+# Daily read-only check that the organisers' Ungapped survey still matches
+# the custom registration form (questions, options, closing date, CORS).
+# A failed run means the site has fallen back to the link to the official
+# form; update src/data/conference/registration.json and the form.
+# It never submits a response.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/data/conference/registration.json"
+      - "src/scripts/registration/**"
+      - "scripts/check-registration.ts"
+
+jobs:
+  check-survey:
+    name: Check Ungapped survey
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # The script has no dependencies; Node 24 runs TypeScript directly.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Check survey
+        run: node scripts/check-registration.ts

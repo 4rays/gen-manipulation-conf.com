@@ -12,7 +12,7 @@ Collected 7 November 2026. Research only: no application code or public metadata
 - Explore shades of Swedish blue. Exact palette and typefaces are not selected.
 - Include a genuine 3D/WebGL background element in the hero. Start simple; a scroll-driven journey can follow.
 - Work on the landing page and reusable components first, with template pages and metadata cleaned up.
-- Registration implementation is out of scope.
+- Registration implementation is out of scope. (Superseded on 10 November 2026: the site now has a form that posts to the organisers' Ungapped survey; see `PRODUCT.md`.)
 
 ## Research index
 

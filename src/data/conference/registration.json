@@ -1,0 +1,82 @@
+{
+  "origin": "https://kth.ungapped.io",
+  "surveyId": "239aafe4-ac8c-4cf4-bfcd-bf717e6098c0",
+  "eventId": "96e73479-2069-4906-a0bc-9f99b0bdfeda",
+  "closes": "2027-01-08T17:00:00Z",
+  "questions": [
+    {
+      "key": "name",
+      "id": "12a0bb25-727b-410c-923a-2adce020d5b1",
+      "type": 40,
+      "format": 7,
+      "required": true,
+      "defaultValue": "[@Name]"
+    },
+    {
+      "key": "email",
+      "id": "c83f4a00-a83e-4dd1-9d79-bb4cabef72df",
+      "type": 40,
+      "format": 0,
+      "required": true,
+      "defaultValue": "[@Email]"
+    },
+    {
+      "key": "organisation",
+      "id": "4ac38ab2-41ef-4f6b-98ad-b9a11a0518aa",
+      "type": 40,
+      "format": 0,
+      "required": true
+    },
+    {
+      "key": "role",
+      "id": "b6263ba5-7476-4bac-82bb-687085b40e0e",
+      "type": 40,
+      "format": 0,
+      "required": true
+    },
+    {
+      "key": "attendance",
+      "id": "c10fdaee-8156-482f-b351-52109b976acd",
+      "type": 10,
+      "format": 0,
+      "required": true,
+      "options": [
+        {"key": "day1", "id": "c17c4836-8a51-49a3-9b9a-1b3e243b723b"},
+        {"key": "day1Dinner", "id": "5e092348-3d44-45fb-a7be-41b1ce0408a5"},
+        {"key": "day2", "id": "dc440d49-fb66-4607-919f-9e6d73d4e5e8"},
+        {"key": "bothDinner", "id": "b92583ab-8553-446f-916d-899fb9833584"},
+        {"key": "both", "id": "43db2b5e-b805-4956-9572-34f671bc7fa4"}
+      ]
+    },
+    {
+      "key": "diet",
+      "id": "baf96837-e0b0-4f0d-b0c5-27de1b36ac33",
+      "type": 20,
+      "format": 0,
+      "required": false,
+      "options": [
+        {"key": "gluten", "id": "fb1a2afb-1357-49d4-ba25-4ee0bf62d21f"},
+        {"key": "lactose", "id": "6b0920ca-5806-47fb-9f47-16c0a7fd2177"},
+        {"key": "vegetarian", "id": "cef3cac5-0e1c-4cc1-9e25-71a10216b3c0"},
+        {"key": "vegan", "id": "b5aacc72-2ed0-4e8c-8bfd-63f73432db38"},
+        {"key": "nuts", "id": "42730629-3c78-4c20-84db-61a087009f66"},
+        {"key": "other", "id": "3f74a3d4-5695-478b-9c44-7b27095c16a1"}
+      ]
+    },
+    {
+      "key": "dietOther",
+      "id": "7cae8ea8-958f-4458-bc78-4c687816ffee",
+      "type": 30,
+      "format": 0,
+      "required": false,
+      "showIf": {"question": "diet", "option": "other"}
+    },
+    {
+      "key": "notes",
+      "id": "174f53db-48f3-4f5f-b3b4-b44936856d46",
+      "type": 40,
+      "format": 0,
+      "required": false
+    }
+  ]
+}

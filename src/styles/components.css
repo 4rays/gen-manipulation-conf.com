@@ -138,6 +138,40 @@ a:not(.action) > svg {
   line-height: 1;
 }
 
+.site-header__register.action {
+  flex-shrink: 0;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  font-size: var(--text-nav);
+}
+
+.site-header[data-enhanced] .site-menu-toggle {
+  order: 1;
+}
+
+.site-header[data-enhanced] .site-header__inner {
+  column-gap: 0.5rem;
+}
+
+.site-header[data-enhanced] .site-header__register {
+  margin-inline-start: auto;
+}
+
+/* Phones: the two-line wordmark, Register and Menu share one bar. The
+   longer line ("Algorithmic Manipulation") is about 12.45em, and the two
+   buttons with gaps take about 10rem plus the gutters, so the wordmark
+   scales down to keep two lines from 360px. */
+@media (max-width: 39.999rem) {
+  .site-header__register.action,
+  .site-menu-toggle {
+    padding-inline: 0.625rem;
+  }
+
+  .site-wordmark {
+    font-size: clamp(0.8125rem, (100vw - 12rem) / 12.6, 1rem);
+  }
+}
+
 .site-menu-toggle[aria-expanded="true"] {
   background: var(--foreground);
   color: var(--background);
@@ -634,8 +668,29 @@ a:not(.action) > svg {
     --header-h: 4.5rem;
   }
 
+  .conference-venue__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .conference-venue__address {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Inline navigation from 1024px. Five sections and the contact link do not
+   fit beside the wordmark below about 930px, so tablets keep the Menu
+   button. Header.astro uses the same query. */
+@media (min-width: 64rem) {
   .site-header__inner {
     flex-wrap: nowrap;
+  }
+
+  .site-header .site-navigation {
+    margin-inline-start: auto;
+  }
+
+  .site-header[data-enhanced] .site-header__register {
+    margin-inline-start: clamp(0.25rem, 2.5vw - 1rem, 1.25rem);
   }
 
   .site-navigation,
@@ -661,14 +716,6 @@ a:not(.action) > svg {
     font-size: var(--text-nav);
     font-weight: 500;
     line-height: 1;
-  }
-
-  .conference-venue__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .conference-venue__address {
-    grid-column: 1 / -1;
   }
 }
 
@@ -823,5 +870,297 @@ a:not(.action) > svg {
   }
   to {
     background: transparent;
+  }
+}
+
+/* Registration. Controls sit on the field with a solid, slightly tinted
+   fill, so trails never run behind typed text. Boundaries mix the
+   foreground into the surface for at least 3:1 against it. Errors use an
+   icon and text, never colour alone (Vantage Red stays in the navigation). */
+.conference-registration {
+  --input-bg: color-mix(in oklch, var(--foreground) 6%, var(--background));
+  --input-border: color-mix(in oklch, var(--foreground) 62%, var(--background));
+}
+
+.conference-registration h2 {
+  margin-bottom: 1.5rem;
+}
+
+.conference-registration__intro p {
+  max-width: 44ch;
+  margin-top: 1rem;
+}
+
+.conference-registration__intro p:first-of-type {
+  font-size: var(--text-body-large);
+}
+
+.conference-registration__body {
+  min-width: 0;
+  margin-top: var(--space-heading);
+}
+
+.registration-link p,
+.registration-notice,
+.registration-status {
+  max-width: 60ch;
+}
+
+.registration-link .action {
+  margin-top: 1.5rem;
+}
+
+.registration-notice,
+.registration-status {
+  padding-block: 1.25rem;
+  border-block: 1px solid var(--border);
+}
+
+.registration-notice {
+  margin-bottom: var(--space-block);
+  font-size: var(--text-body-large);
+}
+
+.registration-form {
+  display: grid;
+  gap: calc(var(--space-block) * 1.25);
+}
+
+.registration-form__identity {
+  display: grid;
+  gap: 1.5rem var(--grid-gap);
+}
+
+.registration-field {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.registration-field > label,
+.registration-field legend {
+  padding: 0;
+  font-size: var(--text-small);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+.registration-field legend {
+  margin-bottom: 0.5rem;
+}
+
+.registration-field__optional {
+  margin-inline-start: 0.3em;
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.registration-field__hint {
+  max-width: 60ch;
+  color: var(--muted-foreground);
+  font-size: var(--text-small);
+}
+
+.registration-field input:not([type="radio"], [type="checkbox"]),
+.registration-field textarea,
+.registration-fallback__copy-text {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  color: var(--foreground);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  transition:
+    border-color 160ms ease-out,
+    box-shadow 160ms ease-out;
+}
+
+.registration-field textarea,
+.registration-fallback__copy-text {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+
+.registration-field input:hover,
+.registration-field textarea:hover {
+  border-color: var(--foreground);
+}
+
+.registration-field [aria-invalid="true"]:not([type="radio"]) {
+  border-color: var(--foreground);
+  box-shadow: inset 0 0 0 1px var(--foreground);
+}
+
+.registration-field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+.registration-field__error svg {
+  flex: none;
+  margin-top: 0.15em;
+}
+
+.registration-choices__list {
+  display: grid;
+  column-gap: var(--grid-gap);
+  margin-top: 0.5rem;
+}
+
+.registration-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding-block: 0.8125rem;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.registration-choices__list > .registration-choice:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.registration-choice input {
+  display: grid;
+  flex: none;
+  place-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.15rem 0 0;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  appearance: none;
+  cursor: pointer;
+}
+
+.registration-choice input[type="radio"] {
+  border-radius: 50%;
+}
+
+.registration-choice:hover input,
+.registration-choice input[aria-invalid="true"] {
+  border-color: var(--foreground);
+}
+
+.registration-choice input:checked {
+  border-color: var(--foreground);
+  background: var(--foreground);
+}
+
+.registration-choice input[type="radio"]:checked {
+  box-shadow: inset 0 0 0 0.3125rem var(--background);
+}
+
+.registration-choice input[type="checkbox"]:checked::before {
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--background);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
+  content: "";
+}
+
+.registration-form__submit {
+  padding-top: 0.25rem;
+}
+
+.action--primary:where(button) {
+  border: 0;
+}
+
+.action:disabled {
+  cursor: progress;
+  opacity: 0.75;
+}
+
+.registration-fallback {
+  display: grid;
+  gap: 1rem;
+}
+
+.registration-fallback__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.registration-fallback__copy-status:empty {
+  display: none;
+}
+
+.registration-done {
+  max-width: 50ch;
+}
+
+.registration-done p {
+  margin-top: 1rem;
+  font-size: var(--text-body-large);
+}
+
+@media (max-width: 39.99rem) {
+  .registration-link .action,
+  .registration-form__submit .action,
+  .registration-fallback__actions .action {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 40rem) {
+  .registration-form__identity {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .registration-field--email {
+    grid-column: 1 / -1;
+  }
+
+  .registration-choices__list--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .registration-choices__list--grid > .registration-choice:nth-last-child(2) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (min-width: 64rem) {
+  .conference-registration__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .conference-registration__intro {
+    grid-column: 1 / 6;
+  }
+
+  .conference-registration__body {
+    grid-column: 6 / 12;
+    margin-top: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .registration-choice input {
+    appearance: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .registration-field input,
+  .registration-field textarea {
+    transition: none;
   }
 }

@@ -47,6 +47,12 @@ const home = localizeUrl("/", locale);
       </a>
       {localized && locales.length > 1 && <LanguagePicker locale={locale} />}
     </nav>
+    <a
+      class="action action--primary site-header__register"
+      href={`${home}#registration`}
+    >
+      {t.register}
+    </a>
   </div>
 </header>
 
@@ -56,7 +62,7 @@ const home = localizeUrl("/", locale);
   const navigation = header?.querySelector<HTMLElement>("#site-navigation");
 
   if (header && toggle && navigation) {
-    const compact = window.matchMedia("(max-width: 47.999rem)");
+    const compact = window.matchMedia("(max-width: 63.999rem)");
     header.dataset.enhanced = "";
 
     const setExpanded = (expanded: boolean) => {

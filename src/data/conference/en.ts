@@ -10,8 +10,8 @@ export const conferenceEn = {
   placeLabel: "KTH, Stockholm",
   hero: {
     lede: "Two days at KTH on how generative AI and algorithmic systems shape attention, choice and well-being, and on the safeguards that protect human autonomy.",
-    programmeAction: "See the programme",
-    contactAction: "Contact the organisers"
+    registerAction: "Register",
+    programmeAction: "See the programme"
   },
   navigation: [
     {
@@ -139,9 +139,9 @@ export const conferenceEn = {
       role: "Founder & Software Engineer",
       institution: "Four Rays (consultancy)",
       shortBio:
-        "Builds social and media software platforms for medium-sized and large enterprises.",
+        "Builds educational, social, and media software platforms for medium-sized and large enterprises.",
       fullBio: [
-        "Reda Lemeden is the founder of Four Rays, a software consultancy. With a background in business and economics, Reda has helped build social and media software platforms for companies like Microsoft, Intel, Klarna, and most recently Circle Communities."
+        "Reda Lemeden is the founder of Four Rays, a software consultancy. With a background in business and economics, Reda has helped deliver learning platforms, social networks, and media applications for organisations like Microsoft, Intel, MIT, Klarna, and most recently Circle Communities."
       ],
       profileUrl: "https://4rays.net",
       profileLabel: "Visit the Four Rays website",
@@ -413,6 +413,13 @@ export const conferenceEn = {
       description: "Dinner in central Stockholm on 28 January.",
       note: "Venue to be announced."
     }
+  },
+  registration: {
+    heading: "Registration",
+    paragraphs: [
+      "Participation is by invitation. Send your details to tell us you want to attend, and we will reply with a personal confirmation.",
+      "Registration closes on 8 January 2027."
+    ]
   },
   contacts: [
     {

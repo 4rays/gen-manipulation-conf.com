@@ -68,8 +68,8 @@ export interface ConferenceContent {
   placeLabel: string;
   hero: {
     lede: string;
+    registerAction: string;
     programmeAction: string;
-    contactAction: string;
   };
   navigation: {href: string; label: string}[];
   facts: {label: string; value: string}[];
@@ -94,6 +94,11 @@ export interface ConferenceContent {
       description: string;
       note: string;
     };
+  };
+  registration: {
+    heading: string;
+    /** Intro before the form. The closing date comes from the Ungapped survey. */
+    paragraphs: string[];
   };
   /** Named contacts, in order. Every contact link mails all of them. */
   contacts: {
