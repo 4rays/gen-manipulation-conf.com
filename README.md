@@ -2,7 +2,7 @@
 
 Conference website for 28–29 January 2027 at KTH, Stockholm.
 
-Built with Astro, TypeScript and Tailwind CSS 4. Static HTML output; no server or registration backend.
+Built with Astro, TypeScript and Tailwind CSS 4. Static HTML output; no server. Registration posts from the browser to the organisers' Ungapped survey at KTH.
 
 ## Development
 
@@ -20,6 +20,7 @@ pnpm check         # Astro / TypeScript diagnostics
 pnpm build         # Production output in dist/
 pnpm preview       # Build and preview production output
 pnpm format:check  # Prettier verification
+pnpm check:registration  # Read-only check of the live Ungapped survey
 ```
 
 ## Project context
@@ -30,12 +31,14 @@ pnpm format:check  # Prettier verification
 
 The site uses the **Pull Field** background: sparse, soft trails bent by hidden attractors behind the whole page, on a plaster ground, with Swedish-blue and night accents, Hedvig Letters Serif and Familjen Grotesk. The earlier Ames-room concept (commit `740eacb` and its uncommitted rebuild) was rejected by the site owner on 7 November 2026.
 
-Content sits directly on the field. A contrast guard adds a soft local wash only where the field makes text hard to read. See `docs/design/field.md` for the effect, its budget and its fallbacks. Registration remains out of scope.
+Content sits directly on the field. A contrast guard adds a soft local wash only where the field makes text hard to read. See `docs/design/field.md` for the effect, its budget and its fallbacks.
 
 ## Source structure
 
 - `src/data/conference/`: typed English conference content, programme, biographies and abstracts.
-- `src/components/conference/`: page-wide decorative scene, hero copy, facts, introduction, speakers, programme, abstracts and venue.
+- `src/components/conference/`: page-wide decorative scene, hero copy, facts, introduction, speakers, programme, abstracts, venue and registration.
+- `src/data/conference/registration.json`, `src/scripts/registration/`: the Ungapped survey the registration form expects, the request it sends and its fallbacks.
+- `scripts/check-registration.ts`: read-only survey check, run daily by the `Registration` workflow.
 - `src/layouts/PageLayout.astro`: optional immersive scene layer behind normal HTML content; the 404 remains non-immersive.
 - `src/components/Header.astro`: progressively enhanced mobile disclosure navigation.
 - `src/layouts/BaseLayout.astro`: canonical URL and social metadata.

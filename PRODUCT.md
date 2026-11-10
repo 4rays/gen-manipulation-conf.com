@@ -31,11 +31,11 @@ The conference concerns generative AI and algorithmic influence, human autonomy,
 ## Capabilities and Constraints
 
 - Initial scope: landing page, reusable components, conference metadata, and removal or replacement of public template content.
-- Registration implementation is out of scope.
+- Registration (added on 10 November 2026): a custom form on the landing page posts to the organisers' Ungapped survey at KTH, which stays the system of record and sends the confirmation email. The official Ungapped form remains the fallback. Participation is by invitation; registration closes on 8 January 2027 at 18:00 Stockholm time (Ungapped: 17:00 UTC).
 - English only at launch.
 - Keep the internationalization architecture ready for Swedish (`sv`). Swedish content and public Swedish routes are not required yet; do not publish empty or untranslated Swedish pages.
 - Japanese is template scaffolding, not a conference requirement; remove it from the public site.
-- Static Astro site with TypeScript and Tailwind CSS 4. No backend or registration service is required.
+- Static Astro site with TypeScript and Tailwind CSS 4. No backend of our own; registration data lives only in Ungapped.
 - Use pnpm, semantic theme tokens, and self-hosted fonts in accordance with repository guidance.
 - The user rejected the Ames-room scene (both executions) on 7 November 2026 and chose the **Pull Field** direction instead: sparse, soft trails bent by hidden, never-drawn attractors, behind the whole landing page.
 - Content sits directly on the field with no section backgrounds. A soft local wash appears only where text contrast is very poor. The header keeps a glass bar; the programme keeps a 95 % night-blue background.

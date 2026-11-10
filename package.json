@@ -12,6 +12,7 @@
     "build": "astro build",
     "preview": "astro build && astro preview",
     "check": "astro check --minimumSeverity warning",
+    "check:registration": "node scripts/check-registration.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "astro": "astro"

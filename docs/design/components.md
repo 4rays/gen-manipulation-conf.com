@@ -58,8 +58,8 @@ Speaker order: programme order, which is neutral. Su-Ling Yeh, Anass Sedrati is 
 - Focus-visible: `outline: 2px solid var(--ring); outline-offset: 3px`.
 - Transition: `background-color 160ms cubic-bezier(0.22, 1, 0.36, 1)`.
 - Trailing icon from `@lucide/astro`, `size=18`, `stroke-width=1.5`, `aria-hidden`:
-  - "See the programme": `ArrowDown`.
-  - "Contact the organiser": `ArrowUpRight` (it leaves the page into the mail app).
+  - "Register" (hero primary, since 10 November 2026) and "See the programme" (secondary): `ArrowDown`. The hero no longer has a contact action; Contact stays in the header, the venue and the footer.
+  - "Open location in maps", "Email the organisers": `ArrowUpRight` (they leave the page).
   - "Open location in maps": `ArrowUpRight`.
 - Below `sm`, actions in a group stack full width (`width: 100%; justify-content: space-between`).
 
@@ -81,10 +81,11 @@ Lists of rows (speakers, programme sessions, about subjects, venue blocks) use `
 - Inner grid container: wordmark left, nav right, `align-items: center; height: var(--header-h)`.
 - Bottom edge: `border-bottom: 1px solid transparent`. Once the page scrolls past 8px, set `[data-scrolled]` on the header, which switches the border to `var(--rule)` over 160 ms. This is progressive: without JS the border stays transparent, which is fine.
 - **`.site-wordmark`**: Hedvig, `opsz` 16, `1.125rem`, line-height 1.12, `max-width: 12.75em` (verified: the title breaks as "Generative AI and / Algorithmic Manipulation"). No underline. Below `sm`: `1rem`, same two lines.
-- **`.site-navigation`** (≥ `md`): `display: flex; gap: clamp(1.25rem, 2.5vw, 2.25rem)`. Familjen 500 `1rem`. Links are `--ink`, no underline at rest. Hover shows a 1px underline at offset 0.3em.
+- **`.site-navigation`** (≥ `lg`, since 10 November 2026: five sections and Contact do not fit beside the wordmark below about 930px): `display: flex; gap: clamp(1.25rem, 2.5vw, 2.25rem)`. Familjen 500 `1rem`. Links are `--ink`, no underline at rest. Hover shows a 1px underline at offset 0.3em.
   - **Active section:** a small scroll-spy script (IntersectionObserver, `rootMargin: "-40% 0px -55% 0px"`) sets `aria-current="true"` on the link whose section is in view. That link gets the vantage dot before its label: `::before` dot with `margin-inline-end: 0.5rem`, vertically centred. Without JS, no link is marked.
-  - The "Contact" mailto link is the last item, styled as text with a trailing `ArrowUpRight`. It is **not** a button. The hero already carries the actions.
-- **Compact menu (< `md`)**: `.site-menu-toggle` is a text button "Menu": Familjen 500 `1rem`, `min-height: 2.75rem`, `padding-inline: 1rem`, `border: 1px solid var(--ink)`, square. `[aria-expanded="true"]` changes the label colour to plaster on ink fill.
+  - The "Contact" mailto link is the last item, styled as text with a trailing `ArrowUpRight`. It is **not** a button.
+- **`.site-header__register`** (since 10 November 2026): "Register", the page's main call to action, is a compact primary action (`min-height: 2.75rem`, no icon) after the navigation. It links to `#registration` (`/#registration` from the 404). Below `lg` it sits beside the Menu button, which stays rightmost; the registration section has no navigation link of its own. Below `sm` both buttons use `padding-inline: 0.625rem` and the wordmark scales (`clamp(0.8125rem, (100vw - 12rem) / 12.6, 1rem)`) so it keeps two lines from 360px.
+- **Compact menu (< `lg`)**: `.site-menu-toggle` is a text button "Menu": Familjen 500 `1rem`, `min-height: 2.75rem`, `padding-inline: 1rem`, `border: 1px solid var(--ink)`, square. `[aria-expanded="true"]` changes the label colour to plaster on ink fill.
   - The open panel: `position: absolute; inset-inline: 0; top: var(--header-h);` plaster, `border-bottom: 1px solid var(--rule)`, padding `1rem var(--gutter) 2rem`. Links stack as rows: Hedvig `1.75rem`, line-height 1.2, `padding-block: 0.875rem`, hairline between rows. Contact last, Familjen 500 `1rem`, with icon.
   - No full-screen overlay and no scroll lock.
 
@@ -183,6 +184,16 @@ This is the densest passage. It must scan like a timetable: strict columns, tabu
 - Map link: `.action .action--secondary` (plaster outline on blue), `margin-top: 1.5rem`, with `ArrowUpRight`.
 - Contact: `address` in normal style (`font-style: normal`). Email is a text link. Profile link is a text link with the external icon.
 - Dinner: the note that the venue is still to be announced is set in small italic `--muted-foreground`.
+
+## `.conference-registration` (`surface-blue`)
+
+Added on 10 November 2026, after the venue and before the organisers. Heading and intro on columns 1–5, the form on 6–11.
+
+- Fields: label above (Familjen 500, small), control 3.25rem high, square, 1px boundary mixed 62 % foreground into the surface (at least 3:1), fill tinted 6 % so trails never run behind typed text. First and last name, then organisation and role, sit in pairs from `sm`; email takes the full row.
+- Choices are hairline rows. Checkboxes are square; radios stay round, as the convention users know. Diet options are two columns from `sm`.
+- Errors: a `CircleAlert` icon and text under the field, and a 2px boundary. Never red (One Point Rule).
+- Status messages sit between hairlines. The fallback is a row of actions: the official form (primary), "Copy my answers" and "Email the organisers" (secondary).
+- Without JavaScript, or when the live survey differs from the expected one, the section shows only a link to the official form.
 
 ## `.site-footer` (`surface-night`)
 

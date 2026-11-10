@@ -1,0 +1,338 @@
+---
+import {ArrowRight, ArrowUpRight, CircleAlert} from "@lucide/astro";
+import type {ConferenceContent} from "@/data/conference";
+import type {Translations} from "@/i18n/constants";
+import {officialFormUrl, schema} from "@/scripts/registration/schema";
+
+interface Props {
+  registration: ConferenceContent["registration"];
+  contacts: ConferenceContent["contacts"];
+  labels: Translations["registration"];
+}
+
+const {registration, contacts, labels} = Astro.props;
+
+type TextField = {
+  name: string;
+  label: string;
+  type?: "text" | "email";
+  autocomplete?: string;
+  required: boolean;
+  missing?: string;
+  invalid?: string;
+  multiline?: boolean;
+  maxlength: number;
+};
+
+const question = (key: string) => {
+  const found = schema.questions.find((q) => q.key === key);
+  if (!found) throw new Error(`registration.json has no "${key}" question`);
+  return found;
+};
+
+const nameRequired = question("name").required;
+const identity: TextField[] = [
+  {
+    name: "firstName",
+    label: labels.fields.firstName,
+    autocomplete: "given-name",
+    required: nameRequired,
+    missing: labels.errors.firstName,
+    maxlength: 100
+  },
+  {
+    name: "lastName",
+    label: labels.fields.lastName,
+    autocomplete: "family-name",
+    required: nameRequired,
+    missing: labels.errors.lastName,
+    maxlength: 100
+  },
+  {
+    name: "email",
+    label: labels.fields.email,
+    type: "email",
+    autocomplete: "email",
+    required: question("email").required,
+    missing: labels.errors.email,
+    invalid: labels.errors.emailInvalid,
+    maxlength: 200
+  },
+  {
+    name: "organisation",
+    label: labels.fields.organisation,
+    autocomplete: "organization",
+    required: question("organisation").required,
+    missing: labels.errors.organisation,
+    maxlength: 200
+  },
+  {
+    name: "role",
+    label: labels.fields.role,
+    autocomplete: "organization-title",
+    required: question("role").required,
+    missing: labels.errors.role,
+    maxlength: 200
+  }
+];
+
+const attendance = question("attendance");
+const diet = question("diet");
+const dietOther: TextField = {
+  name: "dietOther",
+  label: labels.fields.dietOther,
+  required: question("dietOther").required,
+  multiline: true,
+  maxlength: 1000
+};
+const notes: TextField = {
+  name: "notes",
+  label: labels.fields.notes,
+  required: question("notes").required,
+  multiline: true,
+  maxlength: 2000
+};
+
+const optionLabels = labels.options as Record<string, Record<string, string>>;
+const messages = JSON.stringify({
+  ...labels.messages
+});
+const contactList = contacts.map(({email}) => email).join(",");
+---
+
+<section
+  id="registration"
+  class="conference-section conference-registration surface-blue"
+  aria-labelledby="registration-heading"
+  data-registration
+  data-messages={messages}
+  data-contacts={contactList}
+>
+  <div class="layout-container conference-registration__grid">
+    <div class="conference-registration__intro">
+      <h2 id="registration-heading">{registration.heading}</h2>
+      {registration.paragraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+
+    <div class="conference-registration__body">
+      <div class="registration-link" data-registration-link>
+        <p>{labels.link.note}</p>
+        <a class="action action--primary" href={officialFormUrl}>
+          {labels.link.action}
+          <ArrowUpRight size={18} stroke-width={1.5} aria-hidden="true" />
+        </a>
+      </div>
+
+      <p class="registration-notice" data-registration-notice="closed" hidden>
+        {labels.notices.closed}
+      </p>
+      <p class="registration-notice" data-registration-notice="full" hidden>
+        {labels.notices.full}
+      </p>
+
+      <form class="registration-form" data-registration-form hidden>
+        <div class="registration-form__group registration-form__identity">
+          {identity.map((field) => (
+            <div
+              class:list={[
+                "registration-field",
+                `registration-field--${field.name}`
+              ]}
+              data-field={field.name}
+              data-label={field.label}
+              data-missing={field.missing}
+              data-invalid={field.invalid}
+            >
+              <label for={`registration-${field.name}`}>{field.label}</label>
+              <input
+                id={`registration-${field.name}`}
+                name={field.name}
+                type={field.type ?? "text"}
+                autocomplete={field.autocomplete}
+                required={field.required}
+                maxlength={field.maxlength}
+                spellcheck={field.type === "email" ? "false" : undefined}
+                aria-describedby={`registration-${field.name}-error`}
+              />
+              <p
+                id={`registration-${field.name}-error`}
+                class="registration-field__error"
+                data-error
+                hidden
+              >
+                <CircleAlert size={16} stroke-width={1.75} aria-hidden="true" />
+                <span data-error-text />
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <fieldset
+          class="registration-field registration-choices"
+          data-field="attendance"
+          data-label={labels.fields.attendance}
+          data-missing={labels.errors.attendance}
+          aria-describedby="registration-attendance-hint registration-attendance-error"
+        >
+          <legend>{labels.fields.attendance}</legend>
+          <p id="registration-attendance-hint" class="registration-field__hint">
+            {labels.fields.attendanceHint}
+          </p>
+          <div class="registration-choices__list">
+            {attendance.options?.map((option) => (
+              <label class="registration-choice">
+                <input
+                  type="radio"
+                  name="attendance"
+                  value={option.id}
+                  required={attendance.required}
+                />
+                <span>{optionLabels.attendance[option.key]}</span>
+              </label>
+            ))}
+          </div>
+          <p
+            id="registration-attendance-error"
+            class="registration-field__error"
+            data-error
+            hidden
+          >
+            <CircleAlert size={16} stroke-width={1.75} aria-hidden="true" />
+            <span data-error-text />
+          </p>
+        </fieldset>
+
+        <fieldset
+          class="registration-field registration-choices"
+          data-field="diet"
+          data-label={labels.fields.diet}
+        >
+          <legend>
+            {labels.fields.diet}
+            {!diet.required && (
+              <span class="registration-field__optional">
+                ({labels.optional})
+              </span>
+            )}
+          </legend>
+          <div class="registration-choices__list registration-choices__list--grid">
+            {diet.options?.map((option) => (
+              <label class="registration-choice">
+                <input type="checkbox" name="diet" value={option.id} />
+                <span>{optionLabels.diet[option.key]}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        {[dietOther, notes].map((field) => (
+          <div
+            class="registration-field"
+            data-field={field.name}
+            data-label={field.label}
+            hidden={!!question(field.name).showIf}
+          >
+            <label for={`registration-${field.name}`}>
+              {field.label}
+              {!field.required && (
+                <span class="registration-field__optional">
+                  ({labels.optional})
+                </span>
+              )}
+            </label>
+            <textarea
+              id={`registration-${field.name}`}
+              name={field.name}
+              rows={field.name === "notes" ? 4 : 3}
+              maxlength={field.maxlength}
+              required={field.required}
+            />
+          </div>
+        ))}
+
+        <div class="registration-form__submit">
+          <button
+            type="submit"
+            class="action action--primary"
+            data-registration-submit
+          >
+            <span data-busy="false">{labels.submit}</span>
+            <span data-busy="true" hidden>
+              {labels.sending}
+            </span>
+            <ArrowRight size={18} stroke-width={1.5} aria-hidden="true" />
+          </button>
+        </div>
+
+        <p
+          class="registration-status"
+          role="status"
+          tabindex="-1"
+          data-registration-status
+          hidden
+        />
+
+        <div class="registration-fallback" data-registration-fallback hidden>
+          <div class="registration-fallback__actions">
+            <a
+              class="action action--primary"
+              href={officialFormUrl}
+              target="_blank"
+              rel="noopener"
+            >
+              {labels.fallback.official}
+              <ArrowUpRight size={18} stroke-width={1.5} aria-hidden="true" />
+            </a>
+            <button
+              type="button"
+              class="action action--secondary"
+              data-registration-copy
+            >
+              {labels.fallback.copy}
+            </button>
+            <a
+              class="action action--secondary"
+              href={`mailto:${contactList}`}
+              data-registration-mail
+            >
+              {labels.fallback.email}
+              <ArrowUpRight size={18} stroke-width={1.5} aria-hidden="true" />
+            </a>
+          </div>
+          <p
+            class="registration-fallback__copy-status"
+            role="status"
+            data-registration-copy-status
+          />
+          <textarea
+            class="registration-fallback__copy-text"
+            aria-label={labels.fallback.copyLabel}
+            rows="8"
+            readonly
+            data-registration-copy-text
+            hidden
+          />
+        </div>
+      </form>
+
+      <div
+        class="registration-done"
+        tabindex="-1"
+        data-registration-done
+        hidden
+      >
+        <h3>{labels.done.heading}</h3>
+        <p data-done="registered">{labels.done.registered}</p>
+        <p data-done="waitlist" hidden>
+          {labels.done.waitlist}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import "@/scripts/registration/form";
+</script>

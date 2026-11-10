@@ -19,6 +19,7 @@
     "navigation": "Main navigation",
     "menu": "Menu",
     "contact": "Contact",
+    "register": "Register",
     "speakers": "Speakers",
     "organisers": "Organisers",
     "readBiography": "Full biography",
@@ -34,5 +35,77 @@
     "mapAction": "Open location in maps",
     "dinner": "Conference dinner",
     "contactHeading": "Contact"
+  },
+  "registration": {
+    "link": {
+      "note": "Registration uses the organisers' form at KTH.",
+      "action": "Open the registration form"
+    },
+    "notices": {
+      "closed": "Registration is closed. For questions, contact the organisers.",
+      "full": "The conference is full. If you register now, you go on the waiting list."
+    },
+    "optional": "optional",
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "organisation": "Organisation",
+      "role": "Role",
+      "attendance": "Which days will you attend?",
+      "attendanceHint": "The conference dinner is on the evening of 28 January in central Stockholm.",
+      "diet": "Food allergies or special diet",
+      "dietOther": "Tell us about your diet or allergy",
+      "notes": "Other information or requests"
+    },
+    "options": {
+      "attendance": {
+        "day1": "28 January only, without the dinner",
+        "day1Dinner": "28 January, with the dinner",
+        "day2": "29 January only",
+        "bothDinner": "Both days, with the dinner",
+        "both": "Both days, without the dinner"
+      },
+      "diet": {
+        "gluten": "Gluten-free",
+        "lactose": "Lactose-free",
+        "vegetarian": "Vegetarian",
+        "vegan": "Vegan",
+        "nuts": "Nut allergy",
+        "other": "Other"
+      }
+    },
+    "errors": {
+      "firstName": "Enter your first name.",
+      "lastName": "Enter your last name.",
+      "email": "Enter your email address.",
+      "emailInvalid": "Enter an email address in the form name@example.com.",
+      "organisation": "Enter your organisation.",
+      "role": "Enter your role.",
+      "attendance": "Select the days you will attend."
+    },
+    "submit": "Send registration",
+    "sending": "Sending…",
+    "messages": {
+      "timeout": "We could not confirm your registration. Check your email for a confirmation. If you do not get one in a few minutes, send the form again.",
+      "already": "This email address is already registered. Check your email for the confirmation.",
+      "full": "The conference is full and the waiting list is closed. For questions, contact the organisers.",
+      "tooLong": "One of your answers is too long. Make it shorter and send the form again.",
+      "error": "We could not send your registration. Your answers are still in the form. Send it again, or use one of the options below.",
+      "copied": "Your answers are copied. Paste them into the form or an email.",
+      "copyFailed": "Copying did not work. Select the text below and copy it.",
+      "emailSubject": "Registration: Generative AI and Algorithmic Manipulation"
+    },
+    "fallback": {
+      "official": "Open the KTH form",
+      "copy": "Copy my answers",
+      "copyLabel": "Your answers",
+      "email": "Email the organisers"
+    },
+    "done": {
+      "heading": "Thank you",
+      "registered": "We have your registration. Check your email for a confirmation. We will contact you about your place.",
+      "waitlist": "The conference is full, so you are on the waiting list. Check your email for a confirmation. We will contact you if a place becomes free."
+    }
   }
 }

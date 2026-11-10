@@ -7,6 +7,7 @@ import Speakers from "@/components/conference/Speakers.astro";
 import Programme from "@/components/conference/Programme.astro";
 import Talks from "@/components/conference/Talks.astro";
 import Venue from "@/components/conference/Venue.astro";
+import Registration from "@/components/conference/Registration.astro";
 import {getConference} from "@/data/conference";
 import {
   getLocaleFromParams,
@@ -20,7 +21,8 @@ export function getStaticPaths() {
 
 const locale = getLocaleFromParams(Astro.params);
 const conference = getConference(locale);
-const labels = useTranslations(locale).conference;
+const translations = useTranslations(locale);
+const labels = translations.conference;
 // Programme and abstract links resolve organisers as well as speakers.
 const people = [...conference.speakers, ...conference.organisers];
 ---
@@ -42,6 +44,11 @@ const people = [...conference.speakers, ...conference.organisers];
     venue={conference.venue}
     contacts={conference.contacts}
     labels={labels}
+  />
+  <Registration
+    registration={conference.registration}
+    contacts={conference.contacts}
+    labels={translations.registration}
   />
   <Speakers
     id="organisers"

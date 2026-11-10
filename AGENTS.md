@@ -4,7 +4,7 @@ This file provides guidance to coding agents working in this repository.
 
 ## Project Overview
 
-This is the **Generative AI and Algorithmic Manipulation** conference website for 28–29 January 2027 at KTH, Stockholm. It produces plain HTML (`output: "static"`, no adapter, no server, no secrets) deployable to any static host. Read `PRODUCT.md` for confirmed product facts and `DESIGN.md` when available for the approved visual system. Research and unresolved source conflicts live in `docs/research/`. Registration is out of scope.
+This is the **Generative AI and Algorithmic Manipulation** conference website for 28–29 January 2027 at KTH, Stockholm. It produces plain HTML (`output: "static"`, no adapter, no server, no secrets) deployable to any static host. Read `PRODUCT.md` for confirmed product facts and `DESIGN.md` when available for the approved visual system. Research and unresolved source conflicts live in `docs/research/`. Registration posts to the organisers' Ungapped survey (see Registration below).
 
 ## Development Commands
 
@@ -14,6 +14,7 @@ Commands marked with **(CI)** run in the `Test` workflow on every pull request.
 - `pnpm build` - Build the static site to `./dist/` (CI)
 - `pnpm preview` - Build, then preview the production output locally
 - `pnpm check` - Run Astro/TypeScript diagnostics (CI)
+- `pnpm check:registration` - Read-only check that the live Ungapped survey still matches the form (`Registration` workflow, daily and on related PRs)
 - `pnpm format` - Format all files with Prettier
 - `pnpm format:check` - Verify Prettier formatting without writing (CI)
 
@@ -38,6 +39,14 @@ Commands marked with **(CI)** run in the `Test` workflow on every pull request.
 - All essential content must render in HTML without JavaScript. Both programme days remain visible; biographies use native disclosure.
 - Keep editorial notes out of rendered content. Do not silently resolve source conflicts or invent unfinished programme details.
 - Sitemap is automatic via `@astrojs/sitemap` — keep `site` in `astro.config.mjs` accurate.
+
+### Registration
+
+- The form in `src/components/conference/Registration.astro` posts JSON straight from the browser to the KTH Ungapped survey (`https://kth.ungapped.io/api/Surveys/{id}`). Ungapped allows any origin (CORS `*`). There is no documented API: `src/scripts/registration/schema.ts` copies the request that Ungapped's own widget (`/Widgets/forms.js`) sends. Keep it identical.
+- `src/data/conference/registration.json` records the survey, question, option and condition IDs the form expects. On load the form fetches the live definition and appears only if it matches; otherwise visitors keep the link to the official form. That link is also the no-JavaScript default.
+- Never send a test submission to the live survey. Test with every non-GET request intercepted, or ask the organisers for a copy of the survey.
+- No response (network failure or timeout) shows a "check your email" message and never retries on its own; Ungapped emails a confirmation. Other failures keep the answers and offer the official form, a copy of the answers and an email to the organisers.
+- When the organisers change the survey, the daily `Registration` workflow fails. Update `registration.json`, the labels in `en.json` and the component together.
 
 ### Theming
 

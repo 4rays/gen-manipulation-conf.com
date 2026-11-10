@@ -210,7 +210,7 @@ Both are SIL OFL 1.1 and self-hosted from fontsource through Astro's local font 
 
 ## Layout
 
-A 12-column grid in a container of `min(100% − 2 × gutter, 88rem)`. The gutter runs from 16px on a 390px phone to 72px at 1440 (`clamp(1rem, 5.333333vw − 0.3rem, 4.5rem)`). Breakpoints: 640, 768 (header menu switch), 1024 (multi-column layouts), 1280.
+A 12-column grid in a container of `min(100% − 2 × gutter, 88rem)`. The gutter runs from 16px on a 390px phone to 72px at 1440 (`clamp(1rem, 5.333333vw − 0.3rem, 4.5rem)`). Breakpoints: 640, 768, 1024 (header menu switch and multi-column layouts), 1280.
 
 Sections sit on the field in this order: hero, event facts, about, speakers, programme (programme-blue field, 95 %), abstracts, venue, footer. Only the programme has a background; the facts strip, the venue and the footer read as light sections. Each section opens with its heading at `clamp(5rem, 3rem + 7vw, 10rem)` from its top edge and closes with `clamp(4rem, 2.5rem + 5vw, 8rem)`. There is always more space above a heading than below it.
 
@@ -243,7 +243,8 @@ Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus 
 
 - Sticky plaster-glass bar (4.5rem; 3.75rem on phones). The wordmark is the full title in Hedvig, breaking as "Generative AI and / Algorithmic Manipulation".
 - Links in Familjen 500. The section in view gets the vantage dot before its label (scroll-spy, progressive).
-- Below 768: a square outlined "Menu" button opens a full-width panel of Hedvig links with hairlines. No overlay, no scroll lock.
+- Below 1024: a square outlined "Menu" button opens a full-width panel of Hedvig links with hairlines. No overlay, no scroll lock.
+- "Register" is the main call to action on every page: a compact primary button at the end of the bar, beside the Menu button below 1024, and the primary action of the hero.
 
 ### Rows (speakers, sessions, subjects)
 
