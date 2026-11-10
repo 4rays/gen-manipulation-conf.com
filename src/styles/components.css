@@ -110,8 +110,11 @@ a:not(.action) > svg {
 }
 
 .site-wordmark {
-  flex: 0 1 12.75em;
-  max-width: 12.75em;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 0 1 auto;
+  min-width: 0;
   color: var(--foreground);
   font-family: var(--font-display);
   font-size: var(--text-nav);
@@ -125,6 +128,43 @@ a:not(.action) > svg {
 .site-wordmark:hover {
   color: var(--foreground);
   text-decoration: none;
+}
+
+.site-wordmark__title {
+  max-width: 12.75em;
+}
+
+/* The Field mark (FieldMark.astro): strands and ring in the text colour,
+   clipped to the circle. Stroke widths are in the mark's 100-unit box. */
+.field-mark {
+  display: block;
+  flex-shrink: 0;
+  overflow: hidden;
+  clip-path: circle(50%);
+}
+
+.field-mark__ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.35;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.field-mark__strands {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--mark-stroke, 2.6);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Two classes, to override the inline-icon rule for svg in links. */
+.site-wordmark > .site-wordmark__mark {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0;
 }
 
 .site-menu-toggle {
@@ -157,14 +197,32 @@ a:not(.action) > svg {
   margin-inline-start: auto;
 }
 
-/* Phones: the two-line wordmark, Register and Menu share one bar. The
-   longer line ("Algorithmic Manipulation") is about 12.45em, and the two
-   buttons with gaps take about 10rem plus the gutters, so the wordmark
-   scales down to keep two lines from 360px. */
+/* Phones: the mark, the two-line wordmark, Register and Menu share one
+   bar. The longer line ("Algorithmic Manipulation") is about 12.45em; the
+   mark with its gap is 2.25rem and the two buttons with gaps about 10rem,
+   plus the gutters, so the wordmark scales down to keep two lines. */
 @media (max-width: 39.999rem) {
   .site-header__register.action,
   .site-menu-toggle {
     padding-inline: 0.625rem;
+  }
+
+  .site-wordmark {
+    gap: 0.5rem;
+    font-size: clamp(0.8125rem, (100vw - 14.25rem) / 12.6, 1rem);
+  }
+
+  .site-wordmark > .site-wordmark__mark {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+/* Below 390px the mark would push the wordmark to three lines; the title
+   alone keeps two, and the favicon still carries the mark. */
+@media (max-width: 24.374rem) {
+  .site-wordmark > .site-wordmark__mark {
+    display: none;
   }
 
   .site-wordmark {
@@ -392,6 +450,26 @@ a:not(.action) > svg {
   margin-top: 1em;
 }
 
+/* The heading and note on the left, a large Field mark on the right. */
+.conference-programme__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 1.5rem;
+  align-items: start;
+}
+
+.conference-programme__head > :not(.conference-programme__mark) {
+  grid-column: 1;
+}
+
+.conference-programme__mark {
+  --mark-stroke: 1.6;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: clamp(4.5rem, 2.5rem + 6vw, 9rem);
+  height: clamp(4.5rem, 2.5rem + 6vw, 9rem);
+}
+
 .programme-note {
   max-width: 60ch;
   margin-top: 1rem;
@@ -586,6 +664,18 @@ a:not(.action) > svg {
 .site-footer__inner {
   display: grid;
   gap: 1.25rem;
+}
+
+.site-footer__brand {
+  display: grid;
+  justify-items: start;
+  gap: 1.25rem;
+}
+
+.site-footer__mark {
+  --mark-stroke: 2.2;
+  width: 4rem;
+  height: 4rem;
 }
 
 .site-footer__title {
@@ -832,7 +922,7 @@ a:not(.action) > svg {
     grid-column: auto;
   }
 
-  .site-footer__title {
+  .site-footer__brand {
     grid-column: 1 / 7;
   }
 

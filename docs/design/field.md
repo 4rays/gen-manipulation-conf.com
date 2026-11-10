@@ -85,8 +85,13 @@ The scene layer is `aria-hidden`, `pointer-events: none` and `user-select: none`
 
 `public/images/field-desk.*` (1920 × 1200) and `field-mob.*` (780 × 1688) were rendered by the designer on 7 November 2026 from the live field on the production preview, in headless Chrome with page content hidden, and encoded with ImageMagick (WebP q82, AVIF q60). The social card `public/social-cards/default.jpg` is `docs/design/mock/og.html` rendered at 1200 × 630 over `docs/design/assets/field-desk.webp`. All procedural; no generated or third-party imagery.
 
+## Field mark
+
+The logo is a round window onto the field, chosen by the site owner on 10 November 2026 ("Drift"). `scripts/generate-mark.ts` runs the forces above with no randomness and no current: evenly spaced drops fall, one well at (0.6, 0.45) that is never drawn combs them together, and a strand in its core ages 40 times faster, so it tangles once or twice and ends. The strands are clipped to the circle. Seven strands for large sizes, five at 40px and below (header, favicons). Plaster on field blue, with a ring at 35 %.
+
+`FieldMark.astro` draws it in the text colour of its surface, with the stroke width set by `--mark-stroke` (100-unit box). It appears in three places: beside the header wordmark (five strands, 36px, 28px on phones, hidden below 390px so the wordmark keeps two lines), to the right of the programme heading in field blue on beige (seven strands, 72–144px), and above the footer title in plaster (seven strands, 64px). The script draws `favicon.ico` and `apple-touch-icon.png` itself, because ImageMagick's built-in SVG renderer drops unfilled strokes.
+
 ## Known limits
 
 - The guard reads canvas pixels back every 400 ms. It is cheap at this sample size, but it is still a read-back on the main thread.
-- The favicon is still the Ames floor-plan mark from the rejected direction. It needs a new mark.
 - `three` and `@types/three` remain in `package.json` but are no longer imported.
