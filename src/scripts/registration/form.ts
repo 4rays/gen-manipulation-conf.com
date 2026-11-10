@@ -256,7 +256,13 @@ function setup(section: HTMLElement) {
     for (const element of done.querySelectorAll<HTMLElement>("[data-done]"))
       element.hidden = (element.dataset.done === "waitlist") !== waitlist;
     done.hidden = false;
-    done.focus();
+    // Hiding the long form makes the page much shorter. Browsers then keep
+    // the scroll offset or anchor to content below, which can leave the
+    // short confirmation above the viewport. Bring the section back to the
+    // top (its scroll-margin clears the sticky header), then move focus
+    // without a second scroll.
+    section.scrollIntoView({block: "start"});
+    done.focus({preventScroll: true});
   };
 
   form.addEventListener("submit", async (event) => {
