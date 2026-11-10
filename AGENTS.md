@@ -61,6 +61,11 @@ Commands marked with **(CI)** run in the `Test` workflow on every pull request.
 - Social-image tags are emitted only when a real image is supplied. The social card shows the Pull Field; the favicon still uses the earlier Ames-plan mark.
 - No inferred organizer/copyright attribution or unconfirmed event end time in metadata.
 
+## Deployment
+
+- Cloudflare Worker `gen-manipulation-conf` (account Four Rays) serves `dist/` as static assets only, with no Worker script. `wrangler.jsonc` holds the config and binds `gen-manipulation-conf.com` and `www.gen-manipulation-conf.com` as custom domains.
+- Workers Builds deploys every push to `main` (build `pnpm build`, deploy `npx wrangler deploy`) and gives other branches preview URLs. Do not deploy by hand unless Workers Builds is down.
+
 ## Repository Skills
 
 Procedural guides live in `skills/` as `SKILL.md` files. They are named in no other document, so check them before improvising a procedure:

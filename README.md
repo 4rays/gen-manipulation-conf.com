@@ -23,6 +23,10 @@ pnpm format:check  # Prettier verification
 pnpm check:registration  # Read-only check of the live Ungapped survey
 ```
 
+## Deployment
+
+The site runs on Cloudflare as a static-assets Worker (`wrangler.jsonc`) at https://gen-manipulation-conf.com and `www`. Workers Builds deploys every merge to `main`. A manual deploy is `pnpm build && npx wrangler deploy`.
+
 ## Project context
 
 - `PRODUCT.md`: confirmed scope, title, languages and product facts.

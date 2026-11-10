@@ -1,0 +1,19 @@
+// Cloudflare Worker that serves the static build. There is no Worker
+// script: every request is answered from dist/ by the asset server, and
+// unknown paths get dist/404.html with a 404 status.
+//
+// Workers Builds deploys this on every push to main:
+//   build command:  pnpm build
+//   deploy command: npx wrangler deploy
+{
+  "name": "gen-manipulation-conf",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    {"pattern": "gen-manipulation-conf.com", "custom_domain": true},
+    {"pattern": "www.gen-manipulation-conf.com", "custom_domain": true}
+  ]
+}
