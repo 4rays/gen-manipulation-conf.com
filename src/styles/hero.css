@@ -46,29 +46,6 @@
   display: block;
 }
 
-/* Contrast guard (src/scripts/field/guard.ts): a soft local wash behind a
-   text block, shown only where the field makes the text hard to read. */
-[data-fx-guard] {
-  position: relative;
-  isolation: isolate;
-}
-
-[data-fx-guard]::before {
-  position: absolute;
-  inset: -0.6em -1em;
-  z-index: -1;
-  background: var(--fx-backing, transparent);
-  filter: blur(18px);
-  opacity: 0;
-  content: "";
-  pointer-events: none;
-  transition: opacity 280ms ease-out;
-}
-
-[data-fx-guard="on"]::before {
-  opacity: 0.8;
-}
-
 /* Hero */
 .conference-hero {
   position: relative;
@@ -163,15 +140,8 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-fx-guard]::before {
-    transition: none;
-  }
-}
-
 @media print {
-  .page-scene,
-  [data-fx-guard]::before {
+  .page-scene {
     display: none;
   }
 }

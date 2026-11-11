@@ -1,5 +1,4 @@
 import {createField, type Field} from "./field/field";
-import {startGuard} from "./field/guard";
 
 // Starts the page-wide Pull Field behind the landing page.
 // - Motion allowed: the live field, paused while the tab is hidden.
@@ -17,16 +16,12 @@ export function initializePageScene(root: HTMLElement) {
   );
 
   let field: Field | null = null;
-  let stopGuard = () => {};
   const mount = () => {
-    stopGuard();
     field?.dispose();
     field = null;
     try {
       field = createField(root, {animate: !reduced.matches && !saveData});
       root.dataset.renderer = "canvas";
-      const current = field;
-      stopGuard = startGuard(() => current.sample());
     } catch {
       root.dataset.renderer = "still";
     }

@@ -126,10 +126,6 @@ components:
     backgroundColor: "{colors.beige}"
     textColor: "{colors.field-blue}"
     opacity: "95%"
-  contrast-wash:
-    backgroundColor: "{colors.field-blue}"
-    opacity: "80%"
-    filter: "blur(18px)"
   field-mark:
     textColor: "currentColor"
     rounded: "{rounded.dot}"
@@ -137,7 +133,7 @@ components:
 
 # Design System: Generative AI and Algorithmic Manipulation
 
-Status: revision 4, 10 November 2026. The landing page is now an inverted world: plaster type and trails on a deep field blue, a blue glass header, and a beige programme sheet (`[data-immersive]` in `src/styles.css`). The site owner chose the **Field mark** as the logo (see Components). Revision 3, 7 November 2026: The site owner rejected the Ames-room scene in both executions and chose the **Pull Field** from the original impeccable directions, with their own changes. The designer designed and implemented it. The binding specs are [field.md](docs/design/field.md) (background, surfaces, contrast guard, fallbacks), [tokens.md](docs/design/tokens.md) and [components.md](docs/design/components.md). [scene.md](docs/design/scene.md) and [hero-scene.md](docs/design/hero-scene.md) record the rejected room.
+Status: revision 4, 10 November 2026. The landing page is now an inverted world: plaster type and trails on a deep field blue, a blue glass header, and a beige programme sheet (`[data-immersive]` in `src/styles.css`). The site owner chose the **Field mark** as the logo (see Components). Revision 3, 7 November 2026: The site owner rejected the Ames-room scene in both executions and chose the **Pull Field** from the original impeccable directions, with their own changes. The designer designed and implemented it. The binding specs are [field.md](docs/design/field.md) (background, surfaces, fallbacks), [tokens.md](docs/design/tokens.md) and [components.md](docs/design/components.md). [scene.md](docs/design/scene.md) and [hero-scene.md](docs/design/hero-scene.md) record the rejected room.
 
 ## Overview
 
@@ -145,14 +141,14 @@ Status: revision 4, 10 November 2026. The landing page is now an inverted world:
 
 The conference is about influence you see only in its effects. Behind the whole page, fine rain trails fall across a deep blue ground. Hidden attractors bend them: paths loop through, fly back out and tangle. The attractors are never drawn. The visitor sees only the bending, which is the subject itself: algorithmic systems that steer attention and choice without showing their hand.
 
-The field is quiet on purpose: few trails, low contrast, pale plaster and sky trails on a deep field blue, the same from top to bottom. Content sits directly on it, with no section backgrounds. Only the header keeps a blue glass bar, and the programme is a beige sheet with blue type. The logo, the Field mark, is three of its strands caught by one hidden point. Where the field makes a piece of text hard to read, a soft local wash appears behind that text alone, and goes again when the field clears. The page stays generous and rectilinear: no cards, no drop shadows, no rounded corners.
+The field is quiet on purpose: few trails, low contrast, pale plaster and sky trails on a deep field blue, the same from top to bottom. Content sits directly on it, with no section backgrounds. Only the header keeps a blue glass bar, and the programme is a beige sheet with blue type. The logo, the Field mark, is three of its strands caught by one hidden point. The page stays generous and rectilinear: no cards, no drop shadows, no rounded corners.
 
 It refuses the AI-conference default (near-black, neon gradients, glowing particles, robot imagery) and the academic default the old site had (dense justified text on white, institutional chrome).
 
 **Key Characteristics:**
 
 - A page-wide, fixed Canvas 2D field: sparse, soft trails bent by hidden, drifting attractors.
-- Text directly on the field; a contrast guard adds a local wash only where needed.
+- Text directly on the field, with no backing.
 - Field-blue ground, plaster type, trails and actions, a beige programme sheet, one red navigation dot.
 - The Field mark: three strands wound into one spiral around a hidden point.
 - Hedvig Letters Serif for everything spoken; Familjen Grotesk for everything read or used.
@@ -166,7 +162,7 @@ The landing page (`html[data-immersive]`) uses the field palette below. The plas
 
 ### Field (landing page)
 
-- **Field Blue** (`oklch(0.34 0.14 255)`, #00347d): The ground of the field and of the whole landing page, the header glass (78 %), the contrast wash, and the text and actions on the programme sheet. Plaster on it is 10.8:1.
+- **Field Blue** (`oklch(0.34 0.14 255)`, #00347d): The ground of the field and of the whole landing page, the header glass (78 %), and the text and actions on the programme sheet. Plaster on it is 10.8:1.
 - **Plaster on the field** (#f1f5f8): All text, links and the primary action fill. Trails are plaster at 16 %, and a fifth are Sky at 26 %.
 - **On-Field Muted** (`oklch(0.83 0.05 248)`, #aecbe7): Secondary text on the field (7.0:1).
 - **Rule Field** (`oklch(0.5 0.12 252)`, #2765a5): Hairlines on the field.
@@ -181,7 +177,7 @@ The landing page (`html[data-immersive]`) uses the field palette below. The plas
 
 ### Secondary
 
-- **Night** (`oklch(0.215 0.06 260)`, #081835): The contrast wash behind light text. Plaster text on night is 16:1.
+- **Night** (`oklch(0.215 0.06 260)`, #081835): The `surface-night` ground. Plaster text on night is 16:1.
 - **Programme Blue** (`oklch(0.34 0.14 255)`, #00347d): The same value as Field Blue. It was the programme field in revision 3; the landing page now uses it as its ground (see Field above).
 - **Sky** (`oklch(0.8 0.07 240)`, #95c4e7): Text selection and link hover on night. Never a background field.
 
@@ -191,7 +187,7 @@ The landing page (`html[data-immersive]`) uses the field palette below. The plas
 
 ### Neutral
 
-- **Plaster** (`oklch(0.968 0.006 245)`, #f1f5f8): The ground of plaster pages, and the contrast wash behind dark text. On the landing page it is the text and trail colour.
+- **Plaster** (`oklch(0.968 0.006 245)`, #f1f5f8): The ground of plaster pages. On the landing page it is the text and trail colour.
 - **Plaster Shade** (`oklch(0.935 0.014 245)`, #e2ebf2): Hover fill of light actions.
 - **Ink** (`oklch(0.255 0.075 258)`, #082246): Text and drawing on the field (14.5:1 on plaster).
 - **Ink Muted** (`oklch(0.45 0.06 255)`, #3e5776): Secondary text on light surfaces (6.8:1).
@@ -206,7 +202,7 @@ The landing page (`html[data-immersive]`) uses the field palette below. The plas
 
 **The Authored Theme Rule.** One authored theme per page: the landing page is the field-blue world, other pages are plaster. There is no dark mode and no theme toggle.
 
-**The Contrast Guard Rule.** Text sits directly on the field. The field is kept light and sparse so that most text never needs help. Where it does (10th-percentile contrast under 3.5:1 for small text, under 2.5:1 for large text, or a busy patch behind small text), a soft wash appears behind that block only: field blue behind light text on the landing page, plaster behind dark text elsewhere.
+**The Faint Field Rule.** Text sits directly on the field, with no backing. The trails stay faint and sparse enough that text is always readable over them. (A contrast guard that added local washes was removed on 11 November 2026: on the inverted field it never switched on.)
 
 ## Typography
 
@@ -297,7 +293,7 @@ Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus 
 
 ### Do:
 
-- **Do** keep the field light and sparse enough that text rarely needs the contrast wash.
+- **Do** keep the field faint and sparse enough that text never needs a backing.
 - **Do** set every heading in Hedvig and every interface or reading string in Familjen.
 - **Do** keep the title within `calc(44vw − gutter − 3rem)`, and keep the attractors clear of the hero and footer text.
 - **Do** check text over the field in every section on desktop and phone.
@@ -309,7 +305,7 @@ Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus 
 ### Don't:
 
 - **Don't** use Vantage Red for anything except the navigation dot, and never draw the attractors.
-- **Don't** add cards, drop shadows, rounded corners or section backgrounds (except the programme sheet). The Field mark's spiral is the only round shape besides the navigation dot. The wash is the only text backing, and only where the guard asks for it.
+- **Don't** add cards, drop shadows, rounded corners or section backgrounds (except the programme sheet). The Field mark's spiral is the only round shape besides the navigation dot. Text has no backing.
 - **Don't** use uppercase eyebrows, section numbers or decorative icons.
 - **Don't** animate sections on entry, hijack scrolling, or change colours with scroll. The field is the only motion.
 - **Don't** use cream or warm off-white grounds other than the programme's beige sheet, or any palette from the previous KTH/Ungapped page.
