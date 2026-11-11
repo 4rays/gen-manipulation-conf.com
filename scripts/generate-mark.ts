@@ -1,16 +1,15 @@
-// Generates the Field mark: a round window onto the Pull Field. Run with
-// `pnpm generate:mark` (Node runs TypeScript directly). The output is
-// committed, so the build does not run this.
+// Generates the Field mark ("Orbit"). Run with `pnpm generate:mark` (Node
+// runs TypeScript directly). The output is committed, so the build does not
+// run this.
 //
-// Evenly spaced drops fall through the forces of src/scripts/field/field.ts
-// (900 px square, pull 0.078, core softening 0.01, speed cap 6.5), with no
-// randomness and no current. One well that is never drawn combs them
-// together; a strand that enters its core ages 40 times faster, so it
-// tangles once or twice and ends. The site owner chose this version
-// ("Drift": 7 strands, the well at 0.6, 0.45) on 10 November 2026.
+// Three strands, 120 degrees apart, are wound into one logarithmic spiral
+// around a point that is never drawn: each starts at radius 44 and ends at
+// radius 6 after one and a half turns (1.1 turns, ending at 9, for small
+// sizes; 0.8 turns, ending at 14, for the 16 px favicon). The site owner chose this version ("No entry", from Orbit) on
+// 11 November 2026.
 //
 // Writes:
-// - src/data/mark.ts: path data for the header (7 and 5 strands)
+// - src/data/mark.ts: path data for large and small sizes
 // - public/favicon.svg
 // - public/favicon.ico (16 and 32 px) and public/apple-touch-icon.png
 //   (180 px), drawn by this script with no dependencies
@@ -21,91 +20,28 @@ import {crc32, deflateSync} from "node:zlib";
 
 type Point = [number, number];
 
-const S = 900;
-const WELLS = [{x: 0.6, y: 0.45, m: 1}];
-const CAPTURE = 40;
-const CORE = 0.05;
-const PULL = 0.078;
-const MAX_SPEED = 6.5;
+const STRANDS = 3;
+const START_RADIUS = 44;
+const LARGE = {turns: 1.5, end: 6};
+const SMALL = {turns: 1.1, end: 9};
+const TINY = {turns: 0.8, end: 14};
 
 // Colours: --field-blue and --plaster (src/styles.css) in sRGB.
 const FIELD_BLUE = "#00347d";
 const PLASTER = "#f1f5f8";
 
-/** Each strand as points in a 100-unit box. */
-function strands(count: number): Point[][] {
-  const wells = WELLS.map((w) => ({x: w.x * S, y: w.y * S, m: w.m}));
-  const result: Point[][] = [];
-  for (let i = 0; i < count; i++) {
-    let x = ((i + 0.5) / count) * S;
-    let y = -18;
-    let vx = 0;
-    let vy = 1.4;
-    let life = 400;
-    const points: Point[] = [[x / 9, y / 9]];
-    for (let step = 0; step < 900; step++) {
-      let ax = 0;
-      let ay = 0.03;
-      let near = false;
-      for (const w of wells) {
-        const dx = w.x - x;
-        const dy = w.y - y;
-        const d2 = dx * dx + dy * dy;
-        const r = Math.sqrt(d2) || 1;
-        const f = ((w.m * PULL * 0.0016) / (d2 / (S * S) + 0.01)) * S * 0.06;
-        ax += (dx / r) * f;
-        ay += (dy / r) * f;
-        if (r < S * CORE) near = true;
-      }
-      vx = (vx + ax) * 0.999;
-      vy = (vy + ay) * 0.999;
-      const speed = Math.hypot(vx, vy);
-      if (speed > MAX_SPEED) {
-        vx *= MAX_SPEED / speed;
-        vy *= MAX_SPEED / speed;
-      }
-      life -= near ? CAPTURE : 1;
-      x += vx;
-      y += vy;
-      points.push([x / 9, y / 9]);
-      if (life < 0 || y > S + 40 || x < -60 || x > S + 60 || y < -200) break;
+/** Each strand as points in a 100-unit box, centred on (50, 50). */
+function spiral({turns, end}: {turns: number; end: number}): Point[][] {
+  const decay = Math.log(START_RADIUS / end) / (2 * Math.PI * turns);
+  return Array.from({length: STRANDS}, (_, strand) => {
+    const phase = Math.PI / 2 + (2 * Math.PI * strand) / STRANDS;
+    const points: Point[] = [];
+    for (let t = 0; t <= 2 * Math.PI * turns + 1e-9; t += 0.02) {
+      const r = START_RADIUS * Math.exp(-decay * t);
+      points.push([50 + r * Math.cos(t + phase), 50 + r * Math.sin(t + phase)]);
     }
-    result.push(points);
-  }
-  return result;
-}
-
-/** Cuts a polyline to the parts inside the circle of radius r at (50, 50). */
-function clipToCircle(points: Point[], r: number): Point[][] {
-  const inside = ([x, y]: Point) => (x - 50) ** 2 + (y - 50) ** 2 <= r * r;
-  const crossing = (a: Point, b: Point): Point => {
-    const [ax, ay] = [a[0] - 50, a[1] - 50];
-    const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
-    const qa = dx * dx + dy * dy;
-    const qb = 2 * (ax * dx + ay * dy);
-    const qc = ax * ax + ay * ay - r * r;
-    const root = Math.sqrt(Math.max(0, qb * qb - 4 * qa * qc));
-    const t = [(-qb - root) / (2 * qa), (-qb + root) / (2 * qa)].find(
-      (v) => v >= 0 && v <= 1
-    );
-    const k = t ?? 0;
-    return [a[0] + k * dx, a[1] + k * dy];
-  };
-  const pieces: Point[][] = [];
-  let current: Point[] = [];
-  points.forEach((p, i) => {
-    const previous = points[i - 1];
-    if (inside(p)) {
-      if (!current.length && previous) current.push(crossing(previous, p));
-      current.push(p);
-    } else if (current.length) {
-      current.push(crossing(previous, p));
-      pieces.push(current);
-      current = [];
-    }
+    return points;
   });
-  if (current.length) pieces.push(current);
-  return pieces.filter((piece) => piece.length > 1);
 }
 
 /** Ramer–Douglas–Peucker simplification. */
@@ -133,10 +69,15 @@ function simplify(points: Point[], tolerance: number): Point[] {
   ];
 }
 
-function pieces(count: number): Point[][] {
-  return strands(count)
-    .flatMap((strand) => clipToCircle(strand, 50))
-    .map((piece) => simplify(piece, 0.06));
+function strands(size: typeof LARGE): Point[][] {
+  return spiral(size).map((strand) => simplify(strand, 0.04));
+}
+
+/** Scales lines about the centre, to leave a margin inside the disc. */
+function inset(lines: Point[][], scale: number): Point[][] {
+  return lines.map((line) =>
+    line.map(([x, y]) => [50 + (x - 50) * scale, 50 + (y - 50) * scale])
+  );
 }
 
 function pathData(lines: Point[][]): string {
@@ -148,31 +89,29 @@ function pathData(lines: Point[][]): string {
     .join("");
 }
 
-const seven = pieces(7);
-const five = pieces(5);
+const large = strands(LARGE);
+const small = strands(SMALL);
+// On the favicons the spiral sits on a field-blue disc, with a margin.
+const ICON_INSET = 0.8;
 
-// The disc, a faint ring, and the strands, in plaster on field blue.
-const RING = {radius: 48.5, opacity: 0.35};
-
+// The disc and the strands, in plaster on field blue.
 function svgIcon(lines: Point[][], stroke: number): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <!-- Field mark: generated by scripts/generate-mark.ts. -->
-  <clipPath id="disc"><circle cx="50" cy="50" r="50"/></clipPath>
   <circle cx="50" cy="50" r="50" fill="${FIELD_BLUE}"/>
-  <circle cx="50" cy="50" r="${RING.radius}" fill="none" stroke="${PLASTER}" stroke-opacity="${RING.opacity}" stroke-width="1.5"/>
-  <path clip-path="url(#disc)" d="${pathData(lines)}" fill="none" stroke="${PLASTER}" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="${pathData(lines)}" fill="none" stroke="${PLASTER}" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
 }
 
 // Rasters are drawn here, not with ImageMagick: its built-in SVG renderer
 // drops unfilled strokes. Each pixel takes the distance to the disc edge,
-// the ring and the nearest strand segment, with one pixel of smoothing.
+// and the nearest strand segment, with one pixel of smoothing.
 function rasterIcon(
   size: number,
   lines: Point[][],
   stroke: number,
-  {square = false, ring = 1.5} = {}
+  {square = false} = {}
 ): Buffer {
   // The square (apple-touch-icon) leaves a margin for iOS's rounded mask.
   const [origin, span] = square ? [-10, 120] : [0, 100];
@@ -217,10 +156,6 @@ function rasterIcon(
           colour = colour.map((v, i) => (c[i] * a + v * alpha * (1 - a)) / out);
         alpha = out;
       };
-      over(
-        plaster,
-        coverage(ring / 2 - Math.abs(r - RING.radius)) * RING.opacity
-      );
       over(plaster, coverage(stroke / 2 - nearest) * disc);
       const offset = (row * size + column) * 4;
       colour.forEach((v, i) => (pixels[offset + i] = Math.round(v)));
@@ -283,26 +218,27 @@ const root = new URL("..", import.meta.url).pathname;
 writeFileSync(
   join(root, "src/data/mark.ts"),
   `// Generated by scripts/generate-mark.ts. Do not edit; run
-// \`pnpm generate:mark\` instead. Path data in a 100-unit box, clipped to
-// the circle at (50, 50) with radius 50.
+// \`pnpm generate:mark\` instead. Path data in a 100-unit box, centred on
+// (50, 50).
 
 export const markPaths = {
-  7: "${pathData(seven)}",
-  5: "${pathData(five)}"
+  large: "${pathData(large)}",
+  small: "${pathData(small)}"
 } as const;
 `
 );
-writeFileSync(join(root, "public/favicon.svg"), svgIcon(five, 4.2));
+const icon = inset(small, ICON_INSET);
+writeFileSync(join(root, "public/favicon.svg"), svgIcon(icon, 4.4));
 writeFileSync(
   join(root, "public/favicon.ico"),
   ico([
-    {size: 16, data: rasterIcon(16, five, 4.2)},
-    {size: 32, data: rasterIcon(32, five, 3)}
+    {size: 16, data: rasterIcon(16, inset(strands(TINY), 0.9), 8)},
+    {size: 32, data: rasterIcon(32, icon, 4.2)}
   ])
 );
 writeFileSync(
   join(root, "public/apple-touch-icon.png"),
-  rasterIcon(180, seven, 1.7, {square: true, ring: 0.8})
+  rasterIcon(180, inset(large, ICON_INSET), 2.4, {square: true})
 );
 
 console.log(

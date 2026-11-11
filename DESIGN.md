@@ -1,6 +1,6 @@
 ---
 name: Generative AI and Algorithmic Manipulation
-description: A conference site in plaster type on a deep field blue, over a quiet field of trails bent by forces you never see, marked by a round window onto that field.
+description: A conference site in plaster type on a deep field blue, over a quiet field of trails bent by forces you never see, marked by three of its strands wound into one spiral.
 colors:
   plaster: "oklch(0.968 0.006 245)"
   plaster-shade: "oklch(0.935 0.014 245)"
@@ -145,7 +145,7 @@ Status: revision 4, 10 November 2026. The landing page is now an inverted world:
 
 The conference is about influence you see only in its effects. Behind the whole page, fine rain trails fall across a deep blue ground. Hidden attractors bend them: paths loop through, fly back out and tangle. The attractors are never drawn. The visitor sees only the bending, which is the subject itself: algorithmic systems that steer attention and choice without showing their hand.
 
-The field is quiet on purpose: few trails, low contrast, pale plaster and sky trails on a deep field blue, the same from top to bottom. Content sits directly on it, with no section backgrounds. Only the header keeps a blue glass bar, and the programme is a beige sheet with blue type. The logo, the Field mark, is a round window onto the same field. Where the field makes a piece of text hard to read, a soft local wash appears behind that text alone, and goes again when the field clears. The page stays generous and rectilinear: no cards, no drop shadows, no rounded corners.
+The field is quiet on purpose: few trails, low contrast, pale plaster and sky trails on a deep field blue, the same from top to bottom. Content sits directly on it, with no section backgrounds. Only the header keeps a blue glass bar, and the programme is a beige sheet with blue type. The logo, the Field mark, is three of its strands caught by one hidden point. Where the field makes a piece of text hard to read, a soft local wash appears behind that text alone, and goes again when the field clears. The page stays generous and rectilinear: no cards, no drop shadows, no rounded corners.
 
 It refuses the AI-conference default (near-black, neon gradients, glowing particles, robot imagery) and the academic default the old site had (dense justified text on white, institutional chrome).
 
@@ -154,7 +154,7 @@ It refuses the AI-conference default (near-black, neon gradients, glowing partic
 - A page-wide, fixed Canvas 2D field: sparse, soft trails bent by hidden, drifting attractors.
 - Text directly on the field; a contrast guard adds a local wash only where needed.
 - Field-blue ground, plaster type, trails and actions, a beige programme sheet, one red navigation dot.
-- The Field mark: strands from the field's own physics, combed by a hidden point and clipped to a circle.
+- The Field mark: three strands wound into one spiral around a hidden point.
 - Hedvig Letters Serif for everything spoken; Familjen Grotesk for everything read or used.
 - Square corners, 1px hairlines, no drop shadows, no cards. Nothing animates on entry, and scroll does not drive the field.
 
@@ -256,7 +256,7 @@ Two planes: the field, and the content on it. The interface itself stays flat: n
 
 ## Shapes
 
-Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus outlines, portraits. The only curves are the navigation dot, the trails of the field, and the circle of the Field mark. Lines are 1px hairlines in the surface's rule colour, used as row separators (speakers, programme sessions, about subjects, venue blocks, fact columns). No left-border accents, no boxes around content.
+Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus outlines, portraits. The only curves are the navigation dot, the trails of the field, and the spiral of the Field mark. Lines are 1px hairlines in the surface's rule colour, used as row separators (speakers, programme sessions, about subjects, venue blocks, fact columns). No left-border accents, no boxes around content.
 
 ## Components
 
@@ -287,9 +287,9 @@ Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus 
 
 ### The Field mark (logo)
 
-- A round window onto the Pull Field. Seven evenly spaced drops fall through the field's own forces; one well, never drawn, combs them together, and the strands that come closest tangle once or twice and end. Strands are clipped to the circle, with a faint ring (35 %). Chosen by the site owner on 10 November 2026 ("Drift").
+- Three strands wound into one spiral around a point that is never drawn: the capture the field's wells make. No ring, no clip. Chosen by the site owner on 11 November 2026 ("Orbit", the "No entry" variant), replacing "Drift".
 - Generated, never drawn by hand: `pnpm generate:mark` (`scripts/generate-mark.ts`) writes the path data and the favicons. Details in [field.md](docs/design/field.md#field-mark).
-- `FieldMark.astro` draws it in the text colour of its surface; `--mark-stroke` sets the stroke in its 100-unit box. Seven strands from 64px up, five below.
+- `FieldMark.astro` draws it in the text colour of its surface; `--mark-stroke` sets the stroke in its 100-unit box. The large spiral (1.5 turns) from 64px up, the small one (1.1 turns) below.
 - Places: before the header wordmark; to the right of the programme heading in field blue on beige (72–144px); above the footer title in plaster (64px); favicons and the home-screen icon in plaster on a field-blue disc.
 - Never recolour it outside the palette, rotate it, add a fill behind it on the field, or draw the hidden point.
 
@@ -309,7 +309,7 @@ Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus 
 ### Don't:
 
 - **Don't** use Vantage Red for anything except the navigation dot, and never draw the attractors.
-- **Don't** add cards, drop shadows, rounded corners or section backgrounds (except the programme sheet). The Field mark's circle is the only round shape besides the navigation dot. The wash is the only text backing, and only where the guard asks for it.
+- **Don't** add cards, drop shadows, rounded corners or section backgrounds (except the programme sheet). The Field mark's spiral is the only round shape besides the navigation dot. The wash is the only text backing, and only where the guard asks for it.
 - **Don't** use uppercase eyebrows, section numbers or decorative icons.
 - **Don't** animate sections on entry, hijack scrolling, or change colours with scroll. The field is the only motion.
 - **Don't** use cream or warm off-white grounds other than the programme's beige sheet, or any palette from the previous KTH/Ungapped page.
