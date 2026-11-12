@@ -7,10 +7,13 @@
 //   deploy command: npx wrangler deploy
 // Other branches run `npx wrangler preview`, which needs the `previews`
 // block. It is empty: an assets-only Worker has no bindings to override, and
-// production routes do not apply to previews.
+// production routes do not apply to previews. Previews get public URLs on
+// 4rays.workers.dev; the Worker's own workers.dev address stays off.
 {
   "name": "gen-manipulation-conf",
   "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
