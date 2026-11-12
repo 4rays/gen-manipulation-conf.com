@@ -256,7 +256,23 @@ function setup(section: HTMLElement) {
     for (const element of done.querySelectorAll<HTMLElement>("[data-done]"))
       element.hidden = (element.dataset.done === "waitlist") !== waitlist;
     done.hidden = false;
-    done.focus();
+    // Hiding the long form makes the page much shorter. Browsers then keep
+    // the scroll offset or anchor to content below, which can leave the
+    // short confirmation above the viewport. Bring the section back to the
+    // top (its scroll-margin clears the sticky header) when the confirmation
+    // then fits on screen. On short screens, where the heading and intro sit
+    // above it, centre the confirmation instead. One scroll only: with smooth
+    // scrolling, a second call would cut off the first. Then move focus
+    // without another scroll.
+    const margin = parseFloat(getComputedStyle(section).scrollMarginTop) || 0;
+    const fits =
+      done.getBoundingClientRect().bottom -
+        section.getBoundingClientRect().top +
+        margin <=
+      window.innerHeight;
+    if (fits) section.scrollIntoView({block: "start"});
+    else done.scrollIntoView({block: "center"});
+    done.focus({preventScroll: true});
   };
 
   form.addEventListener("submit", async (event) => {
