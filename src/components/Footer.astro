@@ -1,6 +1,7 @@
 ---
 import {getConference} from "@/data/conference";
 import type {Locale} from "@/i18n/constants";
+import FieldMark from "@/components/FieldMark.astro";
 
 interface Props {
   locale: Locale;
@@ -11,7 +12,10 @@ const conference = getConference(Astro.props.locale);
 
 <footer class="site-footer surface-night">
   <div class="layout-container site-footer__inner">
-    <p class="site-footer__title">{conference.title}</p>
+    <div class="site-footer__brand">
+      <FieldMark class="site-footer__mark" size="large" />
+      <p class="site-footer__title">{conference.title}</p>
+    </div>
     <div class="site-footer__details">
       <p>
         {conference.dateLabel} · {conference.placeLabel}

@@ -4,6 +4,7 @@ import {contactMailto, getConference} from "@/data/conference";
 import type {Locale} from "@/i18n/constants";
 import {locales} from "@/i18n/constants";
 import {localizeUrl, useTranslations} from "@/i18n/utils";
+import FieldMark from "@/components/FieldMark.astro";
 import LanguagePicker from "@/components/LanguagePicker.astro";
 
 interface Props {
@@ -20,7 +21,8 @@ const home = localizeUrl("/", locale);
 <header class="site-header surface-plaster" data-site-header>
   <div class="layout-container site-header__inner">
     <a class="site-wordmark" href={home}>
-      {conference.title}
+      <FieldMark class="site-wordmark__mark" />
+      <span class="site-wordmark__title">{conference.title}</span>
     </a>
     <button
       class="site-menu-toggle"

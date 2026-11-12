@@ -5,6 +5,9 @@
 // Workers Builds deploys this on every push to main:
 //   build command:  pnpm build
 //   deploy command: npx wrangler deploy
+// Other branches run `npx wrangler preview`, which needs the `previews`
+// block. It is empty: an assets-only Worker has no bindings to override, and
+// production routes do not apply to previews.
 {
   "name": "gen-manipulation-conf",
   "compatibility_date": "2026-11-01",
@@ -15,5 +18,6 @@
   "routes": [
     {"pattern": "gen-manipulation-conf.com", "custom_domain": true},
     {"pattern": "www.gen-manipulation-conf.com", "custom_domain": true}
-  ]
+  ],
+  "previews": {}
 }

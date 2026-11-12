@@ -106,14 +106,12 @@
 
 /* Immersive landing page (html[data-immersive]): an inverted world.
    Plaster text sits directly on a bright blue Pull Field. Sections have no
-   fill; the contrast guard adds a soft local wash only where the field
-   makes text hard to read. The header keeps a blue glass bar, and the
-   programme is a beige sheet with blue text at 95 %. */
+   fill. The header keeps a blue glass bar, and the programme is a beige
+   sheet with blue text at 95 %. */
 [data-immersive] {
   color-scheme: dark;
   --background: var(--field-blue);
   --foreground: var(--plaster);
-  --wash-dark: var(--field-blue);
   scrollbar-color: var(--on-field-muted) var(--field-blue);
 }
 

@@ -7,17 +7,7 @@
 // trails, two stroke calls per frame (trails batched by colour), speeds
 // capped, and every trail renewed after a short life so no knot builds up.
 
-export interface FieldSample {
-  data: Uint8ClampedArray;
-  width: number;
-  height: number;
-  /** CSS pixels per sample pixel. */
-  scale: number;
-}
-
 export interface Field {
-  /** A downscaled, point-sampled copy of the current frame. */
-  sample: () => FieldSample;
   setRunning: (running: boolean) => void;
   dispose: () => void;
 }
@@ -52,7 +42,6 @@ const COLOURS = {
 } as const;
 const PULL = 0.078;
 const MAX_SPEED = 6.5;
-const SAMPLE_SCALE = 6;
 
 // Normalised positions, placed clear of the hero and footer text.
 const LANDSCAPE: Well[] = [
@@ -202,9 +191,6 @@ export function createField(host: HTMLElement, options: Options): Field {
     frame = requestAnimationFrame(tick);
   };
 
-  const small = document.createElement("canvas");
-  const smallCtx = small.getContext("2d", {willReadFrequently: true});
-
   const observer = new ResizeObserver(resize);
   host.append(canvas);
   resize();
@@ -212,21 +198,6 @@ export function createField(host: HTMLElement, options: Options): Field {
   start();
 
   return {
-    sample() {
-      small.width = Math.max(1, Math.round(width / SAMPLE_SCALE));
-      small.height = Math.max(1, Math.round(height / SAMPLE_SCALE));
-      if (!smallCtx)
-        return {data: new Uint8ClampedArray(0), width: 0, height: 0, scale: 1};
-      // Point sampling keeps thin trails visible to the contrast guard.
-      smallCtx.imageSmoothingEnabled = false;
-      smallCtx.drawImage(canvas, 0, 0, small.width, small.height);
-      return {
-        data: smallCtx.getImageData(0, 0, small.width, small.height).data,
-        width: small.width,
-        height: small.height,
-        scale: SAMPLE_SCALE
-      };
-    },
     setRunning(value) {
       running = value;
       if (!running && frame) {

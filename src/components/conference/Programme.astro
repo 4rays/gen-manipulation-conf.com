@@ -2,6 +2,7 @@
 import {ArrowDown} from "@lucide/astro";
 import type {ProgrammeDay, Speaker} from "@/data/conference";
 import type {Translations} from "@/i18n/constants";
+import FieldMark from "@/components/FieldMark.astro";
 
 interface Props {
   days: ProgrammeDay[];
@@ -21,8 +22,11 @@ const speakerNames = new Map(
   aria-labelledby="programme-heading"
 >
   <div class="layout-container">
-    <h2 id="programme-heading">{labels.programme}</h2>
-    <p class="programme-note">{labels.programmeNote}</p>
+    <div class="conference-programme__head">
+      <h2 id="programme-heading">{labels.programme}</h2>
+      <p class="programme-note">{labels.programmeNote}</p>
+      <FieldMark class="conference-programme__mark" size="large" />
+    </div>
     <div class="programme-days">
       {days.map((day) => (
         <article class="programme-day" aria-labelledby={`day-${day.id}`}>

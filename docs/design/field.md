@@ -1,6 +1,6 @@
 # Pull Field: the page background
 
-Date: 7 November 2026. This file is authoritative for the page background, the section surfaces and the contrast guard. It supersedes [scene.md](scene.md) (the scroll-driven Ames room) and [hero-scene.md](hero-scene.md).
+Date: 7 November 2026. This file is authoritative for the page background and the section surfaces. It supersedes [scene.md](scene.md) (the scroll-driven Ames room) and [hero-scene.md](hero-scene.md).
 
 ## Decision
 
@@ -9,7 +9,7 @@ The site owner rejected the Ames room in both executions. From the original impe
 1. Fewer particles.
 2. Lower particle contrast, so the field is calm behind text.
 3. No colour changes with scroll. The programme keeps a translucent blue background (the site owner set it to 95 %, then asked for a brighter, more saturated blue: `--programme-blue`, `oklch(0.34 0.14 255)`).
-4. No section backgrounds elsewhere. A wash only where text contrast is very poor.
+4. No section backgrounds elsewhere. A wash only where text contrast is very poor (the contrast guard; removed on 11 November 2026, see below).
 5. Chaotic, tangled paths, not trails that collapse into the attractors.
 6. No red markers: the bending paths show the attractors.
 
@@ -21,15 +21,14 @@ Rain falls as fine trails. Hidden attractors bend the paths: they loop through, 
 
 ## Files
 
-| File                                         | Role                                                                |
-| -------------------------------------------- | ------------------------------------------------------------------- |
-| `src/scripts/field/field.ts`                 | The field: simulation, drawing, sampling for the guard              |
-| `src/scripts/field/guard.ts`                 | Contrast guard: samples the field behind text, toggles local washes |
-| `src/scripts/page-scene.ts`                  | Entry: motion, reduced motion, Save-Data, visibility, fallbacks     |
-| `src/components/conference/HeroScene.astro`  | Scene root inside `.page-scene`, with the rendered still            |
-| `src/styles/hero.css`                        | Scene layer, still, guard wash, hero layout                         |
-| `src/styles.css`                             | Immersive surface rules under `html[data-immersive]`                |
-| `public/images/field-{desk,mob}.{avif,webp}` | Rendered stills: first paint and no-JavaScript fallback             |
+| File                                         | Role                                                            |
+| -------------------------------------------- | --------------------------------------------------------------- |
+| `src/scripts/field/field.ts`                 | The field: simulation and drawing                               |
+| `src/scripts/page-scene.ts`                  | Entry: motion, reduced motion, Save-Data, visibility, fallbacks |
+| `src/components/conference/HeroScene.astro`  | Scene root inside `.page-scene`, with the rendered still        |
+| `src/styles/hero.css`                        | Scene layer, still, hero layout                                 |
+| `src/styles.css`                             | Immersive surface rules under `html[data-immersive]`            |
+| `public/images/field-{desk,mob}.{avif,webp}` | Rendered stills: first paint and no-JavaScript fallback         |
 
 ## The field
 
@@ -54,12 +53,7 @@ Under `html[data-immersive]`:
 
 ## Contrast guard
 
-Text sits directly on the field. Every 400 ms, and never during a scroll gesture, the guard samples a point-sampled copy of the field (one pixel per 6 CSS px) behind each text block. It composites any painted section background over it, and compares the result with the block's text colour. A block gets a soft wash (plaster behind dark text, night behind light text, 80 % opacity, blurred 18px, 0.6em × 1em outset) when:
-
-- the 10th-percentile contrast is below 3.5:1 for text under 24px, or below 2.5:1 for larger text, or
-- in any tile about two lines high and 160px wide behind small text, more than 20 % of the field is within 3:1 of the text colour (a busy patch).
-
-The wash goes again when the 10th percentile is 1.0 above the threshold and no tile is busy. In the checks below, washes were rare: the field is light and sparse enough that most text never needs one.
+Removed on 11 November 2026 at the site owner's request. The guard sampled the field behind each text block every 400 ms and showed a blurred local wash where contrast fell below 3.5:1 (small text) or 2.5:1 (large text). It was designed for the light field of revision 3. On the inverted field (plaster text on field blue, trails at 16–26 % opacity) it never switched on in 210 samples over the whole page at 390px and 1280px. Its wash also reached 1em past large text, beyond the phone gutter, which let the page scroll sideways. Text now sits on the field with no backing; keep the trails faint enough that it stays readable.
 
 ## Fallbacks
 
@@ -71,7 +65,7 @@ The wash goes again when the 10th percentile is 1.0 above the threshold and no t
 | No canvas or a script error      | The still stays; `data-renderer="still"`                           |
 | No JavaScript                    | The still stays; all content is plain HTML                         |
 | Hidden tab                       | Animation stops; it resumes on return                              |
-| Print                            | Scene and washes hidden                                            |
+| Print                            | Scene hidden                                                       |
 
 The scene layer is `aria-hidden`, `pointer-events: none` and `user-select: none`, and it holds no information.
 
@@ -85,8 +79,12 @@ The scene layer is `aria-hidden`, `pointer-events: none` and `user-select: none`
 
 `public/images/field-desk.*` (1920 × 1200) and `field-mob.*` (780 × 1688) were rendered by the designer on 7 November 2026 from the live field on the production preview, in headless Chrome with page content hidden, and encoded with ImageMagick (WebP q82, AVIF q60). The social card `public/social-cards/default.jpg` is `docs/design/mock/og.html` rendered at 1200 × 630 over `docs/design/assets/field-desk.webp`. All procedural; no generated or third-party imagery.
 
+## Field mark
+
+The logo is three strands wound into one spiral around a point that is never drawn, the capture that the field's wells make. The site owner chose it on 11 November 2026 ("Orbit", the "No entry" variant), replacing "Drift" (10 November). `scripts/generate-mark.ts` draws each strand as a logarithmic spiral, 120° apart, from radius 44 to radius 6 in one and a half turns (100-unit box). Small sizes (40px and below, the 32px favicon) use 1.1 turns ending at radius 9; the 16px favicon uses 0.8 turns ending at 14. Plaster strands, with no ring and no clip.
+
+`FieldMark.astro` draws it in the text colour of its surface, with the stroke width set by `--mark-stroke` (100-unit box). It appears in three places: beside the header wordmark (small, stroke 3.8, 36px, 28px on phones, hidden below 390px so the wordmark keeps two lines), to the right of the programme heading in field blue on beige (large, stroke 2.4, 72–144px), and above the footer title in plaster (large, stroke 2.4, 64px). The favicons and the home-screen icon put the spiral, scaled to 80 %, on a field-blue disc. The script draws `favicon.ico` and `apple-touch-icon.png` itself, because ImageMagick's built-in SVG renderer drops unfilled strokes.
+
 ## Known limits
 
-- The guard reads canvas pixels back every 400 ms. It is cheap at this sample size, but it is still a read-back on the main thread.
-- The favicon is still the Ames floor-plan mark from the rejected direction. It needs a new mark.
 - `three` and `@types/three` remain in `package.json` but are no longer imported.
