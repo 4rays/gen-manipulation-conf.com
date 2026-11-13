@@ -18,7 +18,7 @@ Audience: scholars, policymakers and industry practitioners deciding whether to 
 
 Memorable moment: a quiet field of trails behind the whole page, bending around forces you never see.
 
-Unresolved: Taimur affiliation and day-2 end time (organiser); portrait permission.
+Unresolved: day-2 end time (organiser).
 
 ## Direction contract
 

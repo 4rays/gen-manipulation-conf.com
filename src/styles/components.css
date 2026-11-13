@@ -378,10 +378,22 @@ a:not(.action) > svg {
   border-bottom: 1px solid var(--border);
 }
 
-.speaker > img {
-  width: 7.5rem;
-  aspect-ratio: 4 / 5;
+/* The avatar sits beside the name; the name next to it is its text, so
+   the image has empty alt text. */
+.speaker__identity:has(.speaker__avatar) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 1.25rem;
+  align-items: start;
+}
+
+.speaker__avatar {
+  width: clamp(4.5rem, 3.9rem + 1.5vw, 5.5rem);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
   object-fit: cover;
+  background: var(--border);
 }
 
 .speaker__role,
@@ -851,19 +863,6 @@ a:not(.action) > svg {
 
   .speaker__description {
     grid-column: 6 / 12;
-  }
-
-  .speaker:has(img) > img {
-    grid-column: 1 / 3;
-    width: 100%;
-  }
-
-  .speaker:has(img) .speaker__identity {
-    grid-column: 3 / 7;
-  }
-
-  .speaker:has(img) .speaker__description {
-    grid-column: 7 / 13;
   }
 
   .programme-days {

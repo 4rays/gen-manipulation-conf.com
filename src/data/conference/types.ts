@@ -1,5 +1,6 @@
 export type SpeakerId =
   | "aimen-taimur"
+  | "amal-el-fallah-seghrouchni"
   | "anass-sedrati"
   | "anders-hedman"
   | "reda-lemeden"
@@ -30,7 +31,8 @@ export interface Speaker {
   /** Overrides the default profile link label. */
   profileLabel?: string;
   sessionIds: string[];
-  portrait?: {src: string; alt: string; width: number; height: number};
+  /** A square photo, at least 240 px, shown as a round avatar. */
+  portrait?: string;
 }
 
 export interface Session {

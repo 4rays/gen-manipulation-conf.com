@@ -76,7 +76,7 @@ Do not publish placeholder Swedish pages or a language switch pointing to untran
 - Programme rows show speaker names, not affiliations.
 - Use date-only conference metadata until the conflicting final end time and timezone are confirmed.
 - Unannounced sessions remain honestly labelled.
-- Speaker portraits are optional and are not published without approved reuse.
+- Speaker portraits are optional round avatars. Add one only with a photo the organisers supplied.
 - Do not infer the formal organizer or copyright owner, or invent sponsors, testimonials, fees or attendance figures.
 - Do not reuse the old site's hero imagery or visual identity.
 

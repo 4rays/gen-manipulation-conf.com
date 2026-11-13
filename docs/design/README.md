@@ -46,9 +46,8 @@ To view the prototype or the mock, serve `docs/design/` over HTTP (for example `
 
 These come from the research and need the organiser, not the designer:
 
-- Aimen Taimur's affiliation (UvA/IViR in the bio, VU in the agenda). The design shows the bio version in the speaker section and only names in programme rows.
 - The Day 2 end time (15:30 in the programme, 16:00 in the event metadata). The design shows no end time outside the programme.
-- Portrait permissions. The speaker layout works without portraits and has a defined portrait variant for later.
+- Speaker avatars are round, beside the name (13 November 2026, at the site owner's request). Speakers without a photo, such as the organisers, keep the text-only row.
 
 ## Asset provenance
 

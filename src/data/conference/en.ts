@@ -64,19 +64,20 @@ export const conferenceEn = {
   },
   speakers: [
     {
-      id: "su-ling-yeh",
-      name: "Su-Ling Yeh",
-      role: "Distinguished Professor",
-      institution: "National Taiwan University",
+      id: "amal-el-fallah-seghrouchni",
+      name: "Amal El Fallah Seghrouchni",
+      role: "Professor",
+      institution: "Sorbonne University",
       shortBio:
-        "A cognitive neuroscientist studying consciousness, perception and attention, and how human-centric AI and digital technologies affect well-being.",
+        "A specialist in distributed artificial intelligence and multi-agent systems, and Morocco’s Minister in charge of Digital Transition and Administrative Reform from 2024 to 2026.",
       fullBio: [
-        "Dr. Su-Ling Yeh is the Dean of the College of Science at National Taiwan University (NTU), where she also serves as a Lifetime Distinguished Professor in the Department of Psychology. She earned her PhD in Psychology from the University of California, Berkeley, and has since established herself as a leading researcher in the fields of cognitive neuroscience and psychophysics. Her academic leadership extends across multiple interdisciplinary roles at NTU, including appointments at the Graduate Institute of Brain and Mind Sciences and the Center for Artificial Intelligence and Advanced Data Science.",
-        "Throughout her career, Dr. Yeh has focused her research on understanding human consciousness, visual perception, attention, and multisensoric integration. In recent years, her work has increasingly bridged the gap between human cognition and technology, exploring how human-centric design can improve artificial intelligence and how digital technologies affect well-being across different generations. Her extensive contributions to the scientific community have earned her numerous prestigious honors, including the Academic Award from the Ministry of Education in Taiwan and multiple Distinguished Research Awards from the National Science and Technology Council."
+        "Her Excellency Dr. Amal El Fallah Seghrouchni is a Moroccan scientist whose career spans over three decades, encompassing research, teaching, innovation, and public policy. A specialist in distributed artificial intelligence and multi-agent systems, she has held prominent academic and scientific leadership positions in both France and Morocco.",
+        "She founded and chaired the international AI center of excellence “AI Movement” at Mohammed VI Polytechnic University (2020-2024) which became a Category 2 centre for the Africa region. She was appointed by His Majesty King Mohammed VI as an expert to the Higher Council for Education, Training and Scientific Research (2022-2027) and served as Minister in charge of Digital Transition and Administrative Reform (2024-2026).",
+        "She was nominated “African Woman of the Year” in 2021 by Berkeley analytics Awards and has received numerous highly prestigious honors, including the Mediterranean Development Award (2026) and the Innovation Award at the Africa Next Awards (2026) at Paris.",
+        "She is currently a professor of the exceptional class at Sorbonne University – Faculty of Science and engineering and honorary president of the AIMovement center."
       ],
       sessionIds: ["keynote-1"],
-      profileUrl:
-        "https://www.psy.ntu.edu.tw/index.php/people/faculty/fulltime-faculty/2247-yeh-su-ling"
+      portrait: "/images/speakers/amal-el-fallah-seghrouchni.webp"
     },
     {
       id: "aimen-taimur",
@@ -89,7 +90,8 @@ export const conferenceEn = {
       fullBio: [
         "Aimen Taimur is a Postdoctoral Researcher at the Institute for Information Law (IViR), University of Amsterdam, and the AI, Media and Democracy Lab. Her research examines the intersection of artificial intelligence, fundamental rights and technology governance, with a particular focus on cognitive freedom, manipulation, and the regulation of AI-enabled influence."
       ],
-      sessionIds: ["eu-regulation"]
+      sessionIds: ["eu-regulation"],
+      portrait: "/images/speakers/aimen-taimur.webp"
     },
     {
       id: "anders-hedman",
@@ -102,7 +104,24 @@ export const conferenceEn = {
         "Anders Hedman is an Associate Professor and Docent in Media Technology and Interaction Design at KTH. His research and teaching combine philosophy, computer science and psychology, with a focus on AI, philosophy of mind and human-computer interaction. He holds a PhD in Human-Computer Interaction from KTH and a double BA in Philosophy and Psychology from the University of California at Berkeley. He has previously been a visiting scholar in the Department of Philosophy at UC Berkeley and worked as a National Expert in the Unit of Future and Emerging Technologies Open at the European Commission."
       ],
       profileUrl: "https://www.kth.se/profile/ahedman",
-      sessionIds: ["conferred-agency"]
+      sessionIds: ["conferred-agency"],
+      portrait: "/images/speakers/anders-hedman.webp"
+    },
+    {
+      id: "su-ling-yeh",
+      name: "Su-Ling Yeh",
+      role: "Distinguished Professor",
+      institution: "National Taiwan University",
+      shortBio:
+        "A cognitive neuroscientist studying consciousness, perception and attention, and how human-centric AI and digital technologies affect well-being.",
+      fullBio: [
+        "Dr. Su-Ling Yeh is the Dean of the College of Science at National Taiwan University (NTU), where she also serves as a Lifetime Distinguished Professor in the Department of Psychology. She earned her PhD in Psychology from the University of California, Berkeley, and has since established herself as a leading researcher in the fields of cognitive neuroscience and psychophysics. Her academic leadership extends across multiple interdisciplinary roles at NTU, including appointments at the Graduate Institute of Brain and Mind Sciences and the Center for Artificial Intelligence and Advanced Data Science.",
+        "Throughout her career, Dr. Yeh has focused her research on understanding human consciousness, visual perception, attention, and multisensoric integration. In recent years, her work has increasingly bridged the gap between human cognition and technology, exploring how human-centric design can improve artificial intelligence and how digital technologies affect well-being across different generations. Her extensive contributions to the scientific community have earned her numerous prestigious honors, including the Academic Award from the Ministry of Education in Taiwan and multiple Distinguished Research Awards from the National Science and Technology Council."
+      ],
+      sessionIds: ["keynote-2"],
+      profileUrl:
+        "https://www.psy.ntu.edu.tw/index.php/people/faculty/fulltime-faculty/2247-yeh-su-ling",
+      portrait: "/images/speakers/su-ling-yeh.webp"
     },
     {
       id: "sam-verschooren",
@@ -115,7 +134,8 @@ export const conferenceEn = {
         "Sam Verschooren is a Marie Skłodowska-Curie Postdoctoral Fellow at UiT The Arctic University of Norway. He previously held fellowships at the Max Planck Institute for Human Cognitive and Brain Sciences, Humboldt University, Duke University, and Ghent University, where he was also awarded his PhD in Experimental Psychology in 2020. He obtained a Master’s degree in Philosophy (2014) and Psychology (2016). His main research lines focus on the transition dynamics of attention, interoceptive control, contemplative traditions, and human-AI interactions."
       ],
       profileUrl: "https://samverschooren.github.io/",
-      sessionIds: ["sam-verschooren-talk"]
+      sessionIds: ["sam-verschooren-talk"],
+      portrait: "/images/speakers/sam-verschooren.webp"
     }
   ],
   organisers: [
@@ -180,9 +200,10 @@ export const conferenceEn = {
           start: "09:15",
           end: "10:30",
           kind: "keynote",
-          title: "Keynote",
-          speakerIds: ["su-ling-yeh"],
-          tbd: true
+          title:
+            "Towards Understanding and Countering Cognitive Dependency in the Age of Generative AI",
+          speakerIds: ["amal-el-fallah-seghrouchni"],
+          tbd: false
         },
         {
           id: "day-1-morning-coffee",
@@ -311,7 +332,7 @@ export const conferenceEn = {
           end: "10:30",
           kind: "keynote",
           title: "Keynote",
-          speakerIds: [],
+          speakerIds: ["su-ling-yeh"],
           tbd: true
         },
         {
@@ -330,9 +351,9 @@ export const conferenceEn = {
           start: "11:00",
           end: "12:00",
           kind: "talk",
-          title: "Presentation",
+          title: "The Cognitive Shield: Internal Attention and AI",
           speakerIds: ["sam-verschooren"],
-          tbd: true
+          tbd: false
         },
         {
           id: "day-2-lunch",

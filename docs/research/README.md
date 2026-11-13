@@ -27,11 +27,9 @@ The relative priority of scholars, policymakers, and industry practitioners rema
 
 ## Publishing questions to resolve with the organizer
 
-- Aimen Taimur's affiliation: agenda says VU Amsterdam; speaker profile says University of Amsterdam / IViR.
 - Day 2 closing time: final agenda item ends 15:30; event metadata ends 16:00.
 - Formal organizing entity, copyright attribution, required institutional marks, and any partners/sponsors.
-- Speaker portrait reuse permission and approved bios. Existing public availability does not establish reuse rights.
-- Missing keynote/talk titles, second keynote speaker, panel participants, and dinner venue.
+- Missing Day 2 keynote title, Day 2 afternoon presentation, panel participants, and dinner venue.
 - Spoken conference language, venue accessibility and practical arrival information, and whether remote attendance is offered. Website language is confirmed as English at launch.
 - Any published fees, capacity or participation conditions: none established by the source. Do not invent them.
 

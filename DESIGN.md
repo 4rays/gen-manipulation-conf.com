@@ -252,7 +252,7 @@ Two planes: the field, and the content on it. The interface itself stays flat: n
 
 ## Shapes
 
-Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus outlines, portraits. The only curves are the navigation dot, the trails of the field, and the spiral of the Field mark. Lines are 1px hairlines in the surface's rule colour, used as row separators (speakers, programme sessions, about subjects, venue blocks, fact columns). No left-border accents, no boxes around content.
+Rectilinear. Every corner is square (`--radius: 0`): buttons, menu panel, focus outlines. The only curves are the navigation dot, the round speaker avatars, the trails of the field, and the spiral of the Field mark. Lines are 1px hairlines in the surface's rule colour, used as row separators (speakers, programme sessions, about subjects, venue blocks, fact columns). No left-border accents, no boxes around content.
 
 ## Components
 

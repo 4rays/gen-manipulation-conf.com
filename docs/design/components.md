@@ -45,7 +45,7 @@ Add `conference.vantageToggle`: "See the room from the side", and `conference.va
 
 Keep the about paragraphs, subjects, programme note and all speaker text as they are.
 
-Speaker order: programme order, which is neutral. Su-Ling Yeh, Anass Sedrati is currently last; move him to second (Day 1, 09:00), then Aimen Taimur, Anders Hedman, Sam Verschooren.
+Speaker order: programme order, which is neutral: Amal El Fallah Seghrouchni, Aimen Taimur, Anders Hedman, Su-Ling Yeh, Sam Verschooren. Organisers have their own section.
 
 ## Shared atoms
 
@@ -144,7 +144,7 @@ The thesis: a calm plaster room, the conference title set big and dark beside it
   - `.speaker__description`: columns 6–11 (column 12 stays empty). Short bio in body role, `max-width: 60ch`.
   - `details > summary`: `list-style: none` (also hide `::-webkit-details-marker`). `display: inline-flex; gap: 0.5rem; align-items: center; min-height: 2.75rem; margin-top: 0.75rem;` Familjen 500 `1rem`, `--link`. Icon `Plus` (lucide, 18, 1.5) rotates 45° when `[open]` (200 ms, ease-out; no rotation under reduced motion).
   - `.speaker__biography`: body role, `max-width: 64ch`, `padding-top: 0.5rem`, paragraphs spaced `1em`. Profile link at the end as a text link with external icon.
-  - **Portrait (optional; only when permission is confirmed):** when `.speaker:has(img)`, the image takes columns 1–2 at `aspect-ratio: 4 / 5; object-fit: cover; width: 100%`, and identity moves to columns 3–6, description to 7–12. No filters, no rounded crop. Below `lg`, a portrait sits above the name at `width: 7.5rem`.
+  - **Avatar (optional; a photo the organisers supplied):** `.speaker__avatar` is a round, square-cropped photo (`border-radius: 50%`, `clamp(4.5rem, 3.9rem + 1.5vw, 5.5rem)`), left of the name inside `.speaker__identity`, `column-gap: 1.25rem`. The grid columns do not change. Empty `alt`: the name beside it says who it is. No filters. Source files: 240 × 240 WebP in `public/images/speakers/`.
 - Tablet/phone: identity on top, description below, `gap: 1rem`.
 
 ## `.conference-programme` (`surface-night`)

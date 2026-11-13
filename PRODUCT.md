@@ -55,4 +55,4 @@ The conference concerns generative AI and algorithmic influence, human autonomy,
 - `docs/research/conference-content.md`: programme, five named speakers, two talk abstracts, venue, contact, and unresolved source conflicts.
 - `docs/research/template-audit.md`: implementation and metadata inventory.
 
-The source conflicts on Aimen Taimur's affiliation and the final conference end time. Do not silently resolve either. Formal organizer attribution, portrait reuse permission, required institutional marks, and several programme details are unconfirmed. No approved new logo, social image, sponsor list, or 3D asset has been provided.
+The source conflicts on the final conference end time. Do not silently resolve it. Formal organizer attribution, required institutional marks, and several programme details are unconfirmed. No approved new logo, social image, sponsor list, or 3D asset has been provided.

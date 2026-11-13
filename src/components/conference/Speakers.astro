@@ -33,22 +33,25 @@ const {
           class="speaker"
           aria-labelledby={`speaker-name-${speaker.id}`}
         >
-          {speaker.portrait && (
-            <img
-              src={speaker.portrait.src}
-              alt={speaker.portrait.alt}
-              width={speaker.portrait.width}
-              height={speaker.portrait.height}
-              loading="lazy"
-              decoding="async"
-            />
-          )}
           <div class="speaker__identity">
-            <h3 id={`speaker-name-${speaker.id}`}>{speaker.name}</h3>
-            <p class="speaker__role">{speaker.role}</p>
-            {speaker.institution && (
-              <p class="speaker__institution">{speaker.institution}</p>
+            {speaker.portrait && (
+              <img
+                class="speaker__avatar"
+                src={speaker.portrait}
+                alt=""
+                width="240"
+                height="240"
+                loading="lazy"
+                decoding="async"
+              />
             )}
+            <div>
+              <h3 id={`speaker-name-${speaker.id}`}>{speaker.name}</h3>
+              <p class="speaker__role">{speaker.role}</p>
+              {speaker.institution && (
+                <p class="speaker__institution">{speaker.institution}</p>
+              )}
+            </div>
           </div>
           <div class="speaker__description">
             <p>{speaker.shortBio}</p>

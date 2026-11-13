@@ -44,44 +44,52 @@ The full introduction and exact talk abstracts are retained in [the original sou
 
 ## Programme: Thursday 28 January
 
-| Time        | Session                                                                      | Speaker / status                             |
-| ----------- | ---------------------------------------------------------------------------- | -------------------------------------------- |
-| 08:00–09:00 | Registration                                                                 | On-site activity; not a website feature      |
-| 09:00–09:15 | Welcome address and conference context                                       | Anass Sedrati, KTH                           |
-| 09:15–10:30 | Keynote 1                                                                    | Su-Ling Yeh, NTU, Taiwan; title not supplied |
-| 10:30–11:00 | Coffee break                                                                 |                                              |
-| 11:00–11:30 | The Evolution of EU Regulation of Harmful Manipulation                       | Aimen Taimur; affiliation conflict below     |
-| 11:30–12:30 | Manipulation Without a Manipulator: AI, Conferred Agency, and Social Reality | Anders Hedman, KTH                           |
-| 12:30–14:00 | Lunch                                                                        |                                              |
-| 14:00–15:00 | Round table / panel                                                          | TBD                                          |
-| 15:00–15:30 | Group picture and coffee break                                               |                                              |
-| 15:30–16:30 | Breakout sessions                                                            | Topics not supplied                          |
-| 16:30–16:40 | Closing of Day 1                                                             |                                              |
-| 18:00–22:00 | Dinner in Stockholm                                                          | Venue TBD                                    |
+Updated 13 November 2026 from the organisers' revised programme: the Day 1 keynote is Amal El Fallah Seghrouchni, Su-Ling Yeh moves to the Day 2 keynote, and Sam Verschooren's talk has a title.
+
+| Time        | Session                                                                               | Speaker / status                                |
+| ----------- | ------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| 08:00–09:00 | Registration                                                                          | On-site activity; not a website feature         |
+| 09:00–09:15 | Welcome address and conference context                                                | Anass Sedrati, KTH                              |
+| 09:15–10:30 | Towards Understanding and Countering Cognitive Dependency in the Age of Generative AI | Amal El Fallah Seghrouchni, Sorbonne University |
+| 10:30–11:00 | Coffee break                                                                          |                                                 |
+| 11:00–11:30 | The Evolution of EU Regulation of Harmful Manipulation                                | Aimen Taimur, IViR, University of Amsterdam     |
+| 11:30–12:30 | Manipulation Without a Manipulator: AI, Conferred Agency, and Social Reality          | Anders Hedman, KTH                              |
+| 12:30–14:00 | Lunch                                                                                 |                                                 |
+| 14:00–15:00 | Round table / panel                                                                   | TBD                                             |
+| 15:00–15:30 | Group picture and coffee break                                                        |                                                 |
+| 15:30–16:30 | Breakout sessions                                                                     | Topics not supplied                             |
+| 16:30–16:40 | Closing of Day 1                                                                      |                                                 |
+| 18:00–22:00 | Dinner in Stockholm                                                                   | Venue TBD                                       |
 
 ## Programme: Friday 29 January
 
-| Time        | Session                    | Speaker / status               |
-| ----------- | -------------------------- | ------------------------------ |
-| 08:00–09:00 | Registration               |                                |
-| 09:00–09:15 | Welcome and start of Day 2 |                                |
-| 09:15–10:30 | Keynote 2                  | Speaker and title TBD          |
-| 10:30–11:00 | Coffee break               |                                |
-| 11:00–12:00 | Presentation               | Sam Verschooren; title TBD     |
-| 12:00–13:00 | Lunch                      |                                |
-| 13:00–14:00 | Presentation               | Speaker and title TBD          |
-| 14:00–15:00 | Round table / panel        | TBD                            |
-| 15:00–15:30 | Coffee break and goodbye   | Conflicts with 16:00 event end |
+| Time        | Session                                         | Speaker / status                    |
+| ----------- | ----------------------------------------------- | ----------------------------------- |
+| 08:00–09:00 | Registration                                    |                                     |
+| 09:00–09:15 | Welcome and start of Day 2                      |                                     |
+| 09:15–10:30 | Keynote 2                                       | Su-Ling Yeh, NTU, Taiwan; title TBD |
+| 10:30–11:00 | Coffee break                                    |                                     |
+| 11:00–12:00 | The cognitive shield: internal attention and AI | Sam Verschooren                     |
+| 12:00–13:00 | Lunch                                           |                                     |
+| 13:00–14:00 | Presentation                                    | Speaker and title TBD               |
+| 14:00–15:00 | Round table / panel                             | TBD                                 |
+| 15:00–15:30 | Coffee break and goodbye                        | Conflicts with 16:00 event end      |
 
 ## Speakers and available material
 
 Full biographies: [source snapshot](sources/conference-speakers.txt). Portrait URLs and profile links: [asset inventory](sources/conference-assets.json).
 
+### Amal El Fallah Seghrouchni
+
+Professor, Sorbonne University; Minister in charge of Digital Transition and Administrative Reform in Morocco (2024–2026). Specialist in distributed AI and multi-agent systems. Biography supplied by the organisers on 13 November 2026; the site shows it as supplied.
+
+Day 1 keynote: **Towards Understanding and Countering Cognitive Dependency in the Age of Generative AI**. No abstract supplied.
+
 ### Aimen Taimur
 
 Speaker card: Researcher, University of Amsterdam. Bio: Postdoctoral Researcher at the Institute for Information Law (IViR), University of Amsterdam, and the AI, Media and Democracy Lab. Research: AI, fundamental rights, cognitive freedom, manipulation, and technology governance.
 
-**Conflict:** the agenda says “VU Amsterdam”, a different university. Do not silently normalize it.
+**Resolved:** the agenda once said “VU Amsterdam”. The revised programme (13 November 2026) gives the Institute for Information Law (IViR), University of Amsterdam, which matches the bio.
 
 Talk and full abstract supplied: **The Evolution of EU Regulation of Harmful Manipulation**. Covers the evolution from consumer/data protection and fundamental rights to AI governance, the EU AI Act, persuasion versus manipulation, recognizable harm, and cognitive autonomy.
 
@@ -105,7 +113,7 @@ Profile: https://www.kth.se/profile/ahedman
 
 Researcher, UiT – The Arctic University of Norway. Bio: Marie Skłodowska-Curie Postdoctoral Fellow. Research includes attention dynamics, interoceptive control, contemplative traditions, and human–AI interactions.
 
-Day 2 presentation is listed without a title or abstract.
+Day 2 talk: **The cognitive shield: internal attention and AI** (the site sets it in title case, like the other talks). No abstract supplied.
 
 Profile: https://samverschooren.github.io/
 
@@ -113,13 +121,13 @@ Profile: https://samverschooren.github.io/
 
 Speaker card: Distinguished Professor, NTU – National Taiwan University. Bio also identifies her as Dean of the College of Science and Lifetime Distinguished Professor in Psychology. Research: consciousness, visual perception, attention, multisensory integration, human-centric AI, and well-being across generations.
 
-Day 1 keynote confirmed in the source; title and abstract not supplied. This is the fifth speaker, visible in the full speaker view rather than the initial four-card preview.
+Day 2 keynote since the revised programme (13 November 2026); it was Day 1 before. Title and abstract not supplied.
 
 Profile linked by source: https://www.psy.ntu.edu.tw/index.php/people/faculty/fulltime-faculty/2247-yeh-su-ling
 
 ## Assets
 
-- Five named speaker portraits are available from the source CDN.
+- Five speaker photos from the organisers' Ungapped page are on the site as round avatars (`public/images/speakers/`), added at the site owner's request on 13 November 2026.
 - A KTH logo is available but its use and any organizer lockup need confirmation.
 - The old “ai-manipulation-picture.jpg” hero/social image is part of the discarded branding and should not be carried into the new identity.
 - No confirmed new logo, approved social image, venue photograph, sponsor marks, or 3D asset has been provided.
